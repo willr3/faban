@@ -1,0 +1,53 @@
+<ui:composition template="/templates/bootstrap.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+>
+	<ui:param name="active" value="newRun" />
+	<ui:define name="content">
+		<p>
+		Sorry, Faban could not find or successfully deploy any benchmarks
+		</p>
+		<form class="form-horizontal" role="form" name="bench" method="post" action="#">
+			<div class="form-group">
+    		<label class="col-lg-3 control-label" for="benchmarkList">Benchmark</label>
+    			<div class="col-lg-6">
+		    		<select class="form-control" name="benchmarkList" id="benchmarkList" placeholder="select a benchmark">
+		    			<option >Benchmark-Alpha</option>
+		    			<option >Benchmark-Bravo</option>
+		    			<option >Benchmark-Charlie</option>
+		    		</select>
+    			</div>
+  		</div>
+			<div class="form-group">
+    		<label class="col-lg-3 control-label" for="profileList">Profile</label>
+    			<div class="col-lg-6">
+		    		<select class="form-control" name="profileList" id="">
+		    			<option selected="selected">Profile-Alpha</option>
+		    			<option >Profile-Bravo</option>
+		    			<option >Profile-Charlie</option>
+		    		</select>
+    			</div>
+  		</div>
+			<div class="form-group">
+    		<label class="col-lg-3 control-label" for="newName">or new profile</label>
+    		<div class="col-lg-6">
+    			<input class="form-control" type="text" id="newName" name="newName" placeholder="new profile name"></input>
+   			</div>
+  		</div>
+			<div class="form-group">
+    		<label class="col-lg-3 control-label" for="tags">Tags</label>
+    		<div class="col-lg-6">
+    			<textarea class="form-control" rows="3" id="tags" name="tags" placeholder="tags associated with profile"></textarea>
+   			</div>
+  		</div>
+  		<div class="form-group">
+  			<div class="col-lg-offset-3 col-lg-6">
+  				<button type="submit" class="btn btn-primary">Select</button>
+  				<button type="reset" class="btn btn-default">Reset</button>
+  			</div>
+  		</div>
+		</form>
+	</ui:define>
+</ui:composition>

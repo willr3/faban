@@ -1,0 +1,54 @@
+<!DOCTYPE html[
+    <!ENTITY copy "&#169;">
+    <!ENTITY eacute "&#201;">
+]>
+<ui:composition template="/templates/bootstrap.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+>
+	<ui:param name="active" value="results" />
+	<ui:define name="content">
+
+			<form name="processrun" role="form" method="post" action="#">
+				<div class="form-group">
+					<button class="btn btn-danger" type="submit" name="process" value="Delete">Delete</button> 
+					<button class="btn btn-info" type="submit" name="process" value="Compare">Compare</button>
+					<button type="reset" class="btn btn-default">Reset</button>
+				</div>
+				<div class="form-group">
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Run ID</th>
+								<th>Description</th>
+								<th>Result</th>
+								<th>Scale</th>
+								<th>Metric</th>
+								<th>Date/Time</th>
+								<th>Submitter</th>
+								<th>Tags</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><input type="checkbox" name="select" id="1A" value="webload.1A" /></td>
+								<td>webload.1A</td>
+								<td>This is the description for this run</td>
+								<td>Result </td>
+								<td>1</td>
+								<td>n/a</td>
+								<td>10/10/13 13:00:00</td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</form>
+				
+
+	</ui:define>
+</ui:composition>

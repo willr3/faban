@@ -1,0 +1,27 @@
+<!DOCTYPE html[
+	<!ENTITY times "&#215;">
+]>
+<ui:composition template="/templates/bootstrap.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+>
+	<ui:param name="active" value="kill" />
+	<ui:define name="content">
+		<div class="well well-lg">
+			<h4>There is no current run!</h4>
+		</div>
+		<div class="well well-lg">
+		<h1>#{System.currentTimeMillis()}</h1>
+			<h4>Are you sure you want to kill run <strong>webload.1A</strong>?</h4>
+			<p>Please press the "Kill" button to continue or chose a different action from the left menu</p>
+			<form name="bench" method="post" action="#">
+				<input type="hidden" name="confirm" value=""></input>
+				<input type="hidden" name="runId" value="runId"></input>
+				<button type="submit" value="kill" class="btn btn-danger">Kill</button>
+			</form>
+		</div>
+	</ui:define>
+</ui:composition>
+	

@@ -11,7 +11,7 @@
 
     <xsl:param name="action-url" select="''"/>
     <xsl:param name="form-id" select="'chiba-form'"/>
-    <xsl:param name="debug-enabled" select="'false'"/>
+    <xsl:param name="debug-enabled" select="'true'"/>
 
     <xsl:template match="/">
         <html>

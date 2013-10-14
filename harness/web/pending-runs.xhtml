@@ -1,0 +1,61 @@
+<!DOCTYPE html[
+	<!ENTITY times "&#215;">
+]>
+<ui:composition template="/templates/bootstrap.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+>
+	<ui:param name="active" value="pending" />
+	<ui:define name="content">
+		<div class="alert alert-dismissable alert-success">
+  		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  		<strong>Success!</strong> You have removed <strong>4</strong> runs.
+  		<a class="alert-link pull-right" href="#">Undo</a>
+		</div>
+		<form role="form" method="post" action="#">
+			<div class="form-group">
+ 				<button type="submit" class="btn btn-danger">Remove</button>
+ 				<button type="reset" class="btn btn-default">Reset</button>
+			</div>
+			<div class="form-group">
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>Run ID</th>
+							<th>Benchmark</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<input type="checkbox" id="1A" value="runqDir" />
+	 							<label class="" for="1A">1A</label>
+	 						</td>
+							<td>webLoad</td>
+							<td>google.com</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="checkbox" id="1B" value="runqDir" />
+								<label class="" for="1B">1B</label>
+							</td>
+							<td>webLoad</td>
+							<td>yahoo.com</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="checkbox" id="1C" value="runqDir" />
+								<label class="" for="1C">1C</label>
+							</td>
+							<td>webLoad</td>
+							<td>cnn.com</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</ui:define>
+</ui:composition>

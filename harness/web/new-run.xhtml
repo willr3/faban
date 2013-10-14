@@ -1,0 +1,42 @@
+<ui:composition template="/templates/bootstrap.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+>
+	<ui:param name="active" value="newRun" />
+	<ui:define name="content">
+	<style>
+.doc-section {
+	position: relative;
+	margin: 15px;
+	padding-top: 28px;
+	margin-top: 15px;
+	background-color: white;
+	border: 1px solid #DDD;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.section-title {
+	position: absolute;
+	top: -1px;
+	left: -1px;
+	padding: 3px 7px;
+	font-size: 12px;
+	font-weight: bold;
+	background-color: whiteSmoke;
+	border: 1px solid #DDD;
+	color: #9DA0A4;
+	-webkit-border-radius: 4px 0 4px 0;
+	-moz-border-radius: 4px 0 4px 0;
+	border-radius: 4px 0 4px 0;
+}
+
+	</style>
+		<h:form class="form-horizontal" role="form" method="post" enctype="application/x-www-form-urlencoded">
+			<!--  <ui:include src="#{chiba.doGet()}"/> -->
+			<h:outputText value="#{chiba.updateForm()}" escape="false"></h:outputText>
+		</h:form>
+	</ui:define>
+</ui:composition>

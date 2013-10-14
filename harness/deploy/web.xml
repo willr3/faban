@@ -6,7 +6,8 @@
 <web-app>
     <context-param>
         <param-name>faban.home</param-name>
-        <param-value>../../../</param-value>
+        <param-value>../../../</param-value> 
+        
         <description>Path to Faban home directory, outside the webapp.
                      A relative path is relative to the root context path
                      of the web application.
@@ -24,6 +25,11 @@
         <filter-name>InitFilter</filter-name>
         <filter-class>com.sun.faban.harness.engine.InitFilter</filter-class>
     </filter>
+
+		<context-param>
+        <param-name>chiba.config</param-name>
+        <param-value>WEB-INF/chiba-config.xml</param-value>
+    </context-param>
 
    <filter-mapping>
       <filter-name>InitFilter</filter-name>
@@ -163,8 +169,24 @@
     <session-config>
         <session-timeout>-1</session-timeout>
     </session-config>
+
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+        <description>File suffix for jsf files</description>
+    </context-param>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping>
+
     
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>welcome.jsf</welcome-file>
   </welcome-file-list>
 </web-app>
