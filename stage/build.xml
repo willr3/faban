@@ -221,13 +221,13 @@
             includeEmptyDirs="true" verbose="true"/>
 
         <copy file="${workspace.dir}/harness/${jar.output}/faban.war"
-            tofile="master/webapps/faban.war"
+            tofile="master/webapps/ROOT.war"
             overwrite="true" preservelastmodified="true"
             includeEmptyDirs="true" verbose="true"/>
 
         <!-- We need to unwar to be able to build the samples -->
-        <unwar src="master/webapps/faban.war"
-            dest="master/webapps/faban"/>
+        <unwar src="master/webapps/ROOT.war"
+            dest="master/webapps/ROOT"/>
     </target>
 
     <target name="check-release">
@@ -286,7 +286,7 @@
         <exclude name="master/bin/*.sh"/>
         <exclude name="master/logs/?*"/>
         <exclude name="master/logs/?*/**"/>
-        <exclude name="master/webapps/faban/**"/>
+        <exclude name="master/webapps/ROOT/**"/>
         <exclude name="master/webapps/fenxi/**"/>
         <exclude name="master/work/Catalina/localhost/?*"/>
         <exclude name="master/work/Catalina/localhost/?*/**"/>
@@ -459,7 +459,7 @@
                 <include name="config/profiles/?*"/>
                 <include name="master/logs/?*/**"/>
                 <include name="master/logs/?*"/>
-                <include name="master/webapps/faban/**"/>
+                <include name="master/webapps/ROOT/**"/>
                 <include name="master/webapps/fenxi/**"/>
                 <include name="master/work/Catalina/localhost/?*/**"/>
                 <include name="master/work/Catalina/localhost/?*"/>
