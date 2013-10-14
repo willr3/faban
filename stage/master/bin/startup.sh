@@ -29,7 +29,7 @@ esac
 
 # resolve links - $0 may be a softlink
 PRG="$0"
-
+PWDR=`pwd`
 while [ -h "$PRG" ] ; do
   ls=`ls -ld "$PRG"`
   link=`expr "$ls" : '.*-> \(.*\)$'`
@@ -40,7 +40,47 @@ while [ -h "$PRG" ] ; do
   fi
 done
 
+JAVA_VER_STRING=`${JAVA_HOME}/bin/java -version 2>&1`
+JAVA_VERSION=`echo $JAVA_VER_STRING | \
+               awk '{ print substr($3, 2, length($3) - 2)}'`
+HOST=`hostname`
 PRGDIR=`dirname "$PRG"`
+
+
+# The IBM JVM does not want the contents of the endorsed dir, others do.
+unendorse() {
+    cd "$PRGDIR"/../endorsed
+    FILECOUNT=`ls | wc -l`
+    if [ "$FILECOUNT" -gt 0 ] ; then
+        cd ..
+        rm -rf unendorsed
+        mv endorsed unendorsed
+        mkdir endorsed
+    fi
+}
+
+endorse() {
+    cd "$PRGDIR"/../endorsed
+    FILECOUNT=`ls | wc -l`
+    if [ "$FILECOUNT" -eq 0 ] ; then
+        cd ..
+        if [ -d unendorsed ] ; then
+            rmdir endorsed
+            mv unendorsed endorsed
+        else
+            echo "WARNING: Cannot find endorsed jars!" >&2
+        fi
+    fi
+}
+
+case $JAVA_VER_STRING in
+    *IBM*) unendorse;;
+    *)     endorse;;
+esac
+
+JAVA_OPTS="-Xms64m -Xmx1024m -Djava.awt.headless=true"
+export JAVA_OPTS
+
 EXECUTABLE=catalina.sh
 
 # Check that target executable exists
@@ -59,4 +99,11 @@ else
   fi
 fi
 
-exec "$PRGDIR"/"$EXECUTABLE" start "$@"
+echo "Starting Faban Server"
+
+# cd to logs to place chiba.log in logs directory
+# TODO set chiba.log location in configuration
+#
+cd "$PRGDIR"/../logs
+echo "Please point your browser to host://$HOST:9980/"
+exec ../bin/"$EXECUTABLE" start "$@"

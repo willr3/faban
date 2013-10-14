@@ -239,15 +239,15 @@ fi
 
 # Bugzilla 37848: only output this if we have a TTY
 if [ $have_tty -eq 1 ]; then
-  echo "Using CATALINA_BASE:   $CATALINA_BASE"
-  echo "Using CATALINA_HOME:   $CATALINA_HOME"
-  echo "Using CATALINA_TMPDIR: $CATALINA_TMPDIR"
+#  echo "Using CATALINA_BASE:   $CATALINA_BASE"
+#  echo "Using CATALINA_HOME:   $CATALINA_HOME"
+#  echo "Using CATALINA_TMPDIR: $CATALINA_TMPDIR"
   if [ "$1" = "debug" ] ; then
     echo "Using JAVA_HOME:       $JAVA_HOME"
-  else
-    echo "Using JRE_HOME:        $JRE_HOME"
+#  else
+#    echo "Using JRE_HOME:        $JRE_HOME"
   fi
-  echo "Using CLASSPATH:       $CLASSPATH"
+#  echo "Using CLASSPATH:       $CLASSPATH"
   if [ ! -z "$CATALINA_PID" ]; then
     echo "Using CATALINA_PID:    $CATALINA_PID"
   fi
