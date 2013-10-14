@@ -353,23 +353,23 @@ public class XFormServlet extends HttpServlet {
             throw new ServletException(e);
     }
 
-    static class Adapter extends AbstractChibaAdapter
+    public static class Adapter extends AbstractChibaAdapter
             implements InteractionHandler {
 
-        private HashMap beanCtx = null;
-        private UIGenerator generator = null;
+        public HashMap beanCtx = null;
+        public UIGenerator generator = null;
 
-        private String xslPath = null;
-        private String baseURI = null;
-        private String formURI = null;
-        private String actionURL = null;
-        private String CSSFile = null;
-        private String stylesheet = null;
-        private String dataPrefix;
-        private String selectorPrefix;
-        private String triggerPrefix;
-        private String removeUploadPrefix;
-        private String uploadRoot;
+        public String xslPath = null;
+        public String baseURI = null;
+        public String formURI = null;
+        public String actionURL = null;
+        public String CSSFile = null;
+        public String stylesheet = null;
+        public String dataPrefix;
+        public String selectorPrefix;
+        public String triggerPrefix;
+        public String removeUploadPrefix;
+        public String uploadRoot;
 
         /**
          * Creates a new Adapter object.
@@ -496,7 +496,7 @@ public class XFormServlet extends HttpServlet {
             }
         }
 
-        void buildUI() throws XFormsException {
+        public void buildUI() throws XFormsException {
             Config cfg = Config.getInstance();
             String dataPrefix = cfg.getProperty("chiba.web.dataPrefix");
             String triggerPrefix = cfg.getProperty("chiba.web.triggerPrefix");
@@ -652,7 +652,7 @@ public class XFormServlet extends HttpServlet {
         private String processUrlencodedRequest(HttpServletRequest request,
                                                 String trigger)
                 throws XFormsException {
-
+        	
             Map paramMap = request.getParameterMap();
             for (Iterator entries = paramMap.entrySet().iterator();
                     entries.hasNext();) {
@@ -666,10 +666,12 @@ public class XFormServlet extends HttpServlet {
                         logger.fine(this + " value: " + values[i]);
                     }
                 }
+                
                 handleData(paramName, values);
                 handleSelector(paramName, values[0]);
                 trigger = handleTrigger(trigger, paramName);
             }
+            
             return trigger;
         }
 
@@ -692,8 +694,11 @@ public class XFormServlet extends HttpServlet {
                 } else {
                     newValue = trim( values[0] );
                 }
-
-                chibaBean.updateControlValue(id, newValue);
+                try{
+                	chibaBean.updateControlValue(id, newValue);
+                } catch(XFormsException e){
+                	e.printStackTrace();
+                }
             }
         }
 
