@@ -204,8 +204,9 @@
 	    <lib     dir="${lib.dir}" excludes="dom3-*, xalan.jar"/>
 	    <lib     dir="${jar.output}" includes="${jar.file}"/>
 	    <webinf  dir="${deploy.dir}" includes="chiba-config.xml"/>
+	    <webinf  dir="${deploy.dir}" includes="faces-config.xml"/>
 	    <classes dir="${compile.output}"
-		     includes="**/webclient/**, **/logging/**"/>
+	      includes="**/webclient/**, **/logging/**, **/web/**"/>
             <classes dir="${deploy.dir}" includes="log4j.*"/>
 	    <metainf dir="${deploy.dir}" includes="context.xml"/>
         </war>
