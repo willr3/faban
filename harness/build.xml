@@ -43,7 +43,7 @@
 
     <path id="class.path">
         <fileset dir="lib" includes="*.jar"/>
-        <fileset dir="../stage/master/common/lib" includes="*.jar"/>
+        <fileset dir="../stage/master/lib" includes="*.jar"/>
         <fileset dir="${env.JDK_HOME}/lib" includes="tools.jar"/>
     </path>
 

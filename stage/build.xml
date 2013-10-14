@@ -206,7 +206,7 @@
             <fileset dir="${workspace.dir}/samples/services/OracleService"/>
         </copy>
 
-        <copy todir="master/common/endorsed"
+        <copy todir="master/endorsed"
             overwrite="true" preservelastmodified="true"
             includeEmptyDirs="true" verbose="true">
             <fileset dir="${workspace.dir}/harness/lib" includes="dom3-*, xalan.jar"/>
@@ -396,7 +396,7 @@
             description="Generate Javadoc documents">
         <path id="class.path">
             <fileset dir="${workspace.dir}/harness/lib" includes="*.jar"/>
-            <fileset dir="master/common/lib" includes="*.jar"/>
+            <fileset dir="master/lib" includes="*.jar"/>
         </path>
         <mkdir dir="${docs.dir}/api"/> 
         <javadoc packagenames="com.sun.faban.**"
@@ -482,7 +482,7 @@
                 <exclude name="lib/**/pkglists/**"/>
                 <include name="samples/benchmarks/**"/>
                 <include name="samples/services/**"/>
-                <include name="master/common/endorsed/?*"/>
+                <include name="master/endorsed/?*"/>
                 <include name="master/conf/Catalina/localhost/faban.xml"/>
                 <include name="master/webapps/faban.war"/>
             </fileset>
