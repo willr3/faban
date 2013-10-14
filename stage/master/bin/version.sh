@@ -16,9 +16,9 @@
 # limitations under the License.
 
 # -----------------------------------------------------------------------------
-# Start Script for the CATALINA Server
+# Version Script for the CATALINA Server
 #
-# $Id: startup.sh 1202062 2011-11-15 06:50:02Z mturk $
+# $Id: version.sh 1202062 2011-11-15 06:50:02Z mturk $
 # -----------------------------------------------------------------------------
 
 # Better OS/400 detection: see Bugzilla 31132
@@ -59,4 +59,4 @@ else
   fi
 fi
 
-exec "$PRGDIR"/"$EXECUTABLE" start "$@"
+exec "$PRGDIR"/"$EXECUTABLE" version "$@"

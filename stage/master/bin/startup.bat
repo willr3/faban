@@ -16,9 +16,9 @@ rem limitations under the License.
 
 if "%OS%" == "Windows_NT" setlocal
 rem ---------------------------------------------------------------------------
-rem Stop script for the CATALINA Server
+rem Start script for the CATALINA Server
 rem
-rem $Id: shutdown.bat 895392 2010-01-03 14:02:31Z kkolinko $
+rem $Id: startup.bat 895392 2010-01-03 14:02:31Z kkolinko $
 rem ---------------------------------------------------------------------------
 
 rem Guess CATALINA_HOME if not defined
@@ -54,6 +54,6 @@ shift
 goto setArgs
 :doneSetArgs
 
-call "%EXECUTABLE%" stop %CMD_LINE_ARGS%
+call "%EXECUTABLE%" start %CMD_LINE_ARGS%
 
 :end
