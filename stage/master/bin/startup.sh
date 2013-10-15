@@ -28,8 +28,9 @@ OS400*) os400=true;;
 esac
 
 # resolve links - $0 may be a softlink
+
 PRG="$0"
-PWDR=`pwd`
+
 while [ -h "$PRG" ] ; do
   ls=`ls -ld "$PRG"`
   link=`expr "$ls" : '.*-> \(.*\)$'`
@@ -46,10 +47,21 @@ JAVA_VERSION=`echo $JAVA_VER_STRING | \
 HOST=`hostname`
 PRGDIR=`dirname "$PRG"`
 
+echo "PRGDIR is $PRGDIR"
+echo "current dir `pwd`"
+echo "changing to $PRGDIR"
+
+cd "$PRGDIR"
+
+echo "new dir `pwd`"
+
+PWDR=`pwd`
+
+echo "PWDR = ${PWDR}"
 
 # The IBM JVM does not want the contents of the endorsed dir, others do.
 unendorse() {
-    cd "$PRGDIR"/../endorsed
+    cd "$PWDR"/../endorsed
     FILECOUNT=`ls | wc -l`
     if [ "$FILECOUNT" -gt 0 ] ; then
         cd ..
@@ -60,7 +72,7 @@ unendorse() {
 }
 
 endorse() {
-    cd "$PRGDIR"/../endorsed
+    cd "$PWDR"/../endorsed
     FILECOUNT=`ls | wc -l`
     if [ "$FILECOUNT" -eq 0 ] ; then
         cd ..
@@ -78,6 +90,13 @@ case $JAVA_VER_STRING in
     *)     endorse;;
 esac
 
+echo `pwd`
+echo "changing to $PWDR"
+
+cd "${PWDR}"
+
+echo "current dir `pwd`"
+
 JAVA_OPTS="-Xms64m -Xmx1024m -Djava.awt.headless=true"
 export JAVA_OPTS
 
@@ -91,7 +110,8 @@ if $os400; then
   # this will not work if the user belongs in secondary groups
   eval
 else
-  if [ ! -x "$PRGDIR"/"$EXECUTABLE" ]; then
+
+  if [ ! -x ./"$EXECUTABLE" ]; then
     echo "Cannot find $PRGDIR/$EXECUTABLE"
     echo "The file is absent or does not have execute permission"
     echo "This file is needed to run this program"
@@ -104,6 +124,6 @@ echo "Starting Faban Server"
 # cd to logs to place chiba.log in logs directory
 # TODO set chiba.log location in configuration
 #
-cd "$PRGDIR"/../logs
+cd "$PWDR"/../logs
 echo "Please point your browser to host://$HOST:9980/"
 exec ../bin/"$EXECUTABLE" start "$@"
