@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -66,6 +67,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "rawtypes", "serial", "unchecked" })
 public class Dispatcher extends HttpServlet {
 
     static final ConcurrentHashMap<String, Class> CLASS_CACHE =

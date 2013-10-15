@@ -22,6 +22,7 @@
 package com.sun.faban.harness.formsgen;
 
 import java.util.ArrayList;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -30,6 +31,7 @@ import org.w3c.dom.Node;
  * Delegates to specific element handlers.
  * @author Sheetal Patil1
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class XformsHandler {
     private ElementHandler handleElement; 
     Node eNode;

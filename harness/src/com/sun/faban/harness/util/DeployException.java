@@ -26,6 +26,7 @@ package com.sun.faban.harness.util;
 /**
  * Signifies a deployment exception
  */
+@SuppressWarnings({ "serial" })
 public class DeployException extends Exception {
 
     /**

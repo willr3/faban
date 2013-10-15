@@ -28,6 +28,7 @@ import com.sun.faban.harness.common.Config;
 import com.sun.faban.harness.common.RunId;
 import com.sun.faban.harness.engine.RunQ;
 import com.sun.faban.harness.security.AccessController;
+
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -42,6 +43,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -55,6 +57,7 @@ import java.util.logging.Logger;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "rawtypes", "serial", "unchecked" })
 public class CLIServlet extends HttpServlet {
 
     static final int TAIL = 0;
@@ -548,7 +551,7 @@ public class CLIServlet extends HttpServlet {
         LogRecordDetail detail = new LogRecordDetail();
         ExceptionRecord exception = new ExceptionRecord();
         StackFrame frame = new StackFrame();
-        ArrayList stackFrames = new ArrayList();
+		ArrayList stackFrames = new ArrayList();
         private CircularBuffer<LogRecord> recordBuffer;
 
         LogOutputHandler(PrintWriter writer, boolean[] options) {

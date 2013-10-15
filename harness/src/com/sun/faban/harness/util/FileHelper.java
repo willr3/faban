@@ -42,6 +42,7 @@ import java.util.logging.Logger;
 /**
  * File utilities. A collection of static methods to deal with file operations.
  */
+@SuppressWarnings({ "rawtypes" })
 public class FileHelper {
     
     private static Logger logger = Logger.getLogger(FileHelper.class.getName());

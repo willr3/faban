@@ -50,6 +50,7 @@ import java.util.logging.Logger;
  * @author Shanti Subramanyam
  * @deprecated
  */
+@SuppressWarnings({ "serial" })
 @Deprecated final public class LighttpdService implements WebServerService {
 
     private static LighttpdService service = null;

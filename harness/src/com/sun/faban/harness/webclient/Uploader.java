@@ -25,23 +25,27 @@ package com.sun.faban.harness.webclient;
 
 import com.sun.faban.harness.common.Config;
 import com.sun.faban.harness.common.RunId;
-
 import com.sun.faban.harness.util.FileHelper;
+
 import java.util.logging.Level;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
+
 import javax.servlet.ServletException;
+
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
+
 import static com.sun.faban.harness.util.FileHelper.*;
 
 /**
@@ -49,7 +53,7 @@ import static com.sun.faban.harness.util.FileHelper.*;
  *
  * @author Sheetal Patil
  */
-
+@SuppressWarnings({ "rawtypes" })
 public class Uploader {
   private static Logger logger = Logger.getLogger(ResultAction.class.getName());
 

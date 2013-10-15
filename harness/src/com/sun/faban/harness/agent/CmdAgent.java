@@ -45,6 +45,7 @@ import java.util.logging.Level;
  * @see com.sun.faban.harness.agent.CmdAgentImpl
  * @see com.sun.faban.harness.engine.GenericBenchmark
  */
+@SuppressWarnings({ "rawtypes"})
 public interface CmdAgent extends Remote {
 
     /**

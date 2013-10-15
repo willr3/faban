@@ -26,6 +26,7 @@ package com.sun.faban.harness.webclient;
 import com.sun.faban.harness.common.Config;
 import com.sun.faban.harness.util.DeployUtil;
 import com.sun.faban.harness.util.FileHelper;
+
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -34,6 +35,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,6 +49,7 @@ import java.util.logging.Logger;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "rawtypes", "serial" })
 public class Deployer extends HttpServlet {
 
     static Logger logger = Logger.getLogger(Deployer.class.getName());

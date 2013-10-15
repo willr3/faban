@@ -60,6 +60,7 @@ import java.util.logging.Logger;
  * @see com.sun.faban.harness.agent.CmdAgent
  * @see com.sun.faban.harness.engine.CmdService
  */
+@SuppressWarnings({ "rawtypes", "serial"})
 public class CmdAgentImpl extends UnicastRemoteObject
         implements CmdAgent, CommandChecker, Unreferenced {
 

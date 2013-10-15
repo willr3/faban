@@ -27,6 +27,7 @@ import com.sun.faban.harness.common.BenchmarkDescription;
 import com.sun.faban.harness.common.Config;
 
 import javax.security.auth.Subject;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import java.util.logging.Logger;
  * The user environemnt is kept in the user's session at all times. It contains
  * many of Faban's necessary states.
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class UserEnv {
 
     Logger logger = Logger.getLogger(this.getClass().getName());

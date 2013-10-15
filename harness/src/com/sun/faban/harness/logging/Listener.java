@@ -38,6 +38,7 @@ import java.util.logging.Logger;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class Listener implements Runnable {
 
     /** The selector instance used for listening. */

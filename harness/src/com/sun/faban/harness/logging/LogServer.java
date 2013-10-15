@@ -38,6 +38,7 @@ import java.util.logging.Logger;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class LogServer extends Thread {
 
     /** The log configuration. */

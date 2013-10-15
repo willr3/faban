@@ -23,18 +23,12 @@
  */
 package com.sun.faban.harness.tools;
 
-import com.sun.faban.common.Command;
-import com.sun.faban.common.CommandHandle;
-import com.sun.faban.harness.Context;
-import com.sun.faban.harness.agent.CmdAgentImpl;
-
 import java.io.IOException;
-import java.rmi.RemoteException;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.sun.faban.common.Command;
 
 /**
  * Collector is a wrapper for the Collector. This will send the

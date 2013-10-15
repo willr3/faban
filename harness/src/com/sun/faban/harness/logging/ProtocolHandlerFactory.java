@@ -35,6 +35,7 @@ import java.util.logging.Logger;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class ProtocolHandlerFactory {
 
     /**

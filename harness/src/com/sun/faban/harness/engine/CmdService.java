@@ -79,6 +79,7 @@ import java.util.logging.Logger;
  * @see com.sun.faban.harness.agent.CmdAgent
  * @see com.sun.faban.harness.engine.GenericBenchmark
  */
+@SuppressWarnings({ "rawtypes"})
 final public class CmdService { 	// The final keyword prevents clones
 
     /** Sequential flag in FG mode. */

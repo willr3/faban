@@ -36,6 +36,7 @@ import java.util.Date;
  *
  * @author Ramesh Ramachandran
  */
+@SuppressWarnings({ "serial" })
 public class Run implements Serializable {
 
     /** Run status STARTED. */

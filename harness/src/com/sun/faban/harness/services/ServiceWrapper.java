@@ -59,6 +59,7 @@ public class ServiceWrapper {
      * @param ctx The service context
      * @throws Exception Error creating the service wrapper
      */
+    @SuppressWarnings({ "rawtypes" })
     ServiceWrapper(Class serviceClass, ServiceContext ctx) throws Exception {
         this.ctx = ctx;
         String serviceClassName = serviceClass.getName();

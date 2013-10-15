@@ -91,6 +91,7 @@ public class ToolWrapper {
      * @param ctx The master tool context
      * @throws Exception Error creating the tool
      */
+    @SuppressWarnings({ "rawtypes" })
     public ToolWrapper(Class toolClass, MasterToolContext ctx)
             throws Exception {
         Method[] methods = toolClass.getMethods();

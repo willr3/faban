@@ -10,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
+@SuppressWarnings({ "unchecked" })
 public class DetailReport {
     ArrayList<Double> timeList = new ArrayList<Double>();
     ArrayList<Double> opThruList[];  // each array element is for one operation

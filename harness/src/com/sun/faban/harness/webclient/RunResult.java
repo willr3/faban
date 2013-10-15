@@ -35,6 +35,7 @@ import com.sun.faban.harness.util.FileHelper;
 import com.sun.faban.harness.util.XMLReader;
 
 import javax.security.auth.Subject;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -45,6 +46,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -53,6 +55,7 @@ import org.w3c.dom.NodeList;
  * Result class scans through the output directory and compiles a list of run
  * results. Enhance this to enable the user to sort it using different options.
  */
+@SuppressWarnings({ "rawtypes", "serial", "unchecked" })
 public class RunResult {
 
     /**

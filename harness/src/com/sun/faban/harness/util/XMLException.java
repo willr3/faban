@@ -28,6 +28,7 @@ package com.sun.faban.harness.util;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "serial" })
 public class XMLException extends RuntimeException {
 
     /**

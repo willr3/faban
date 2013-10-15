@@ -23,7 +23,6 @@
  */
 package com.sun.faban.harness.engine;
 
-import java.util.*;
 
 /**
  *

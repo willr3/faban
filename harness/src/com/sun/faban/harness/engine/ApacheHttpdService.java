@@ -24,7 +24,6 @@
 package com.sun.faban.harness.engine;
 
 import com.sun.faban.common.Command;
-
 import com.sun.faban.common.CommandHandle;
 import com.sun.faban.common.Utilities;
 import com.sun.faban.harness.RemoteCallable;
@@ -32,7 +31,6 @@ import com.sun.faban.harness.RunContext;
 import com.sun.faban.harness.WildcardFileFilter;
 
 import java.io.BufferedReader;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -52,6 +50,7 @@ import java.util.logging.Logger;
  * @author Shanti Subramanyam
  * @deprecated
  */
+@SuppressWarnings({ "serial" })
 @Deprecated final public class ApacheHttpdService implements WebServerService {
 
     private static ApacheHttpdService service = null;

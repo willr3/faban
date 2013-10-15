@@ -27,6 +27,7 @@ package com.sun.faban.harness;
  * Exception signifying that the specified host is not part of the rig.
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "serial" })
 public class FabanHostUnknownException extends RuntimeException {
 
     /**

@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.Logger;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -44,6 +45,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class Download {
 
     static Logger logger = Logger.getLogger(Download.class.getName());

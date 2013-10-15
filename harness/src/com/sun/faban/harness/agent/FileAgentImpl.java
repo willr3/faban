@@ -44,6 +44,7 @@ import java.util.Properties;
  * @author Ramesh Ramachandran
  * @see com.sun.faban.harness.agent.FileAgent
  */
+@SuppressWarnings({ "serial" })
 public class FileAgentImpl extends UnicastRemoteObject
         implements FileAgent {
 

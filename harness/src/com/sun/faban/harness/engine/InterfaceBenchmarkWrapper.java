@@ -28,6 +28,7 @@ import com.sun.faban.harness.Benchmark;
  * Benchmark interface.
  * @author Sheetal Patil, Sun Microsystems.
  */
+@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
 public class InterfaceBenchmarkWrapper extends BenchmarkWrapper {
 
     Benchmark benchmark;

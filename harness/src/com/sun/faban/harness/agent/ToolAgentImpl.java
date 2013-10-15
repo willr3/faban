@@ -29,6 +29,7 @@ import com.sun.faban.harness.tools.MasterToolContext;
 import com.sun.faban.harness.tools.ToolDescription;
 import com.sun.faban.harness.tools.ToolWrapper;
 import com.sun.faban.harness.util.XMLReader;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -54,6 +55,7 @@ import java.util.logging.Logger;
  * @see com.sun.faban.harness.engine.GenericBenchmark
  * @author Ramesh Ramachandran
  */
+@SuppressWarnings({ "rawtypes", "serial" })
 public class ToolAgentImpl extends UnicastRemoteObject implements ToolAgent, Unreferenced {
     String toolNames[];
     ToolWrapper tools [];	// handles to the Tool objects

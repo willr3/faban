@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.FileUploadException;
 import org.chiba.adapter.AbstractChibaAdapter;
 import org.chiba.adapter.ChibaAdapter;
@@ -28,6 +27,7 @@ import org.chiba.xml.xforms.events.EventFactory;
 import org.chiba.xml.xforms.exception.XFormsException;
 import org.chiba.xml.xforms.ui.Repeat;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class RunChiba {
 
 	private static Logger logger = Logger.getLogger(RunChiba.class.getName());

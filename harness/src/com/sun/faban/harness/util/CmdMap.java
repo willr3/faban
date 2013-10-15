@@ -26,12 +26,14 @@ package com.sun.faban.harness.util;
 import com.sun.faban.harness.common.Config;
 import com.sun.faban.common.Command;
 import com.sun.faban.common.CommandHandle;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -45,6 +47,7 @@ import java.util.logging.Logger;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class CmdMap {
 
     static Logger logger = Logger.getLogger(CmdMap.class.getName());

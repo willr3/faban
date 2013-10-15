@@ -23,6 +23,33 @@
  */
 package com.sun.faban.harness.webclient;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
@@ -38,26 +65,12 @@ import org.chiba.xml.xforms.events.EventFactory;
 import org.chiba.xml.xforms.exception.XFormsException;
 import org.chiba.xml.xforms.ui.Repeat;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * The XFormServlet is the glue code between Faban and Chiba XForms.
  * It serves get requests to initially access the XForm and post requests for
  * subsequent interactions.
  */
+@SuppressWarnings({ "serial" })
 public class XFormServlet extends HttpServlet {
 
     private static Logger logger = Logger.getLogger(
@@ -114,7 +127,8 @@ public class XFormServlet extends HttpServlet {
      * @throws ServletException Error in request handling
      * @throws IOException Error doing other IO
      */
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(true);
@@ -243,7 +257,8 @@ public class XFormServlet extends HttpServlet {
      * @throws ServletException Error in request handling
      * @throws IOException Error doing other IO
      */
-    public void doPost(HttpServletRequest request,
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public void doPost(HttpServletRequest request,
                           HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
@@ -356,7 +371,8 @@ public class XFormServlet extends HttpServlet {
     public static class Adapter extends AbstractChibaAdapter
             implements InteractionHandler {
 
-        public HashMap beanCtx = null;
+        @SuppressWarnings("rawtypes")
+		public HashMap beanCtx = null;
         public UIGenerator generator = null;
 
         public String xslPath = null;
@@ -374,7 +390,8 @@ public class XFormServlet extends HttpServlet {
         /**
          * Creates a new Adapter object.
          */
-        public Adapter() {
+        @SuppressWarnings("rawtypes")
+		public Adapter() {
             chibaBean = createProcessor();
             beanCtx = new HashMap();
             chibaBean.setContext(beanCtx);
@@ -525,7 +542,8 @@ public class XFormServlet extends HttpServlet {
         }
 
 
-        private String processMultiPartRequest(HttpServletRequest request,
+        @SuppressWarnings({ "rawtypes", "deprecation", "unchecked" })
+		private String processMultiPartRequest(HttpServletRequest request,
                                                String trigger)
                 throws XFormsException {
             DiskFileUpload upload = new DiskFileUpload();
@@ -649,7 +667,8 @@ public class XFormServlet extends HttpServlet {
             return trigger;
         }
 
-        private String processUrlencodedRequest(HttpServletRequest request,
+        @SuppressWarnings("rawtypes")
+		private String processUrlencodedRequest(HttpServletRequest request,
                                                 String trigger)
                 throws XFormsException {
         	

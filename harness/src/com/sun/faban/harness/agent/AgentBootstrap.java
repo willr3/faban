@@ -48,6 +48,7 @@ import java.util.logging.Logger;
 /**
  * Bootstrap class for the CmdAgent and FileAgent.
  */
+@SuppressWarnings({ "unchecked" })
 public class AgentBootstrap {
 
     private static int daemonPort = 9981;

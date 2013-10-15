@@ -21,16 +21,18 @@
  */
 package com.sun.faban.harness.engine;
 
-import com.sun.faban.harness.Benchmark;
-import com.sun.faban.harness.common.BenchmarkDescription;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.sun.faban.harness.Benchmark;
+import com.sun.faban.harness.common.BenchmarkDescription;
 
 /**
  * This is a wrapper which checks if the benchmark class is annotation based
  * or interface based.
  * @author Sheetal Patil, Sun Microsystems.
  */
+@SuppressWarnings({ "rawtypes", "deprecation" })
 public abstract class BenchmarkWrapper {
     
     private static Logger logger = 

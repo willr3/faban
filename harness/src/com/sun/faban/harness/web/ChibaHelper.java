@@ -1,7 +1,6 @@
 package com.sun.faban.harness.web;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -28,6 +27,7 @@ import com.sun.faban.harness.webclient.XFormServlet.Adapter;
 
 @ManagedBean(name="chiba")
 @SessionScoped
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class ChibaHelper {
 
 	static final Logger logger = Logger.getLogger(ChibaHelper.class.getName());
@@ -158,7 +158,6 @@ public class ChibaHelper {
 	}
 	
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public String doGet() throws IOException{
 	
 		FacesContext context = FacesContext.getCurrentInstance();  
@@ -188,14 +187,25 @@ public class ChibaHelper {
 			String requestURI = request.getRequestURI();//TODO may need to change this to a param
 			String formURI = null;
 			String contextPath = request.getContextPath();
-			String benchPath = contextPath + "/bm_submit/";//TODO bm_submit is old and needs removal
+			String benchPath = contextPath;// + "/bm_submit/";//TODO bm_submit is old and needs removal
+			System.out.println("ChibaHelper.doGet requestURI="+requestURI+" benchPath="+benchPath);
 			if(requestURI.startsWith(benchPath)){
+				System.out.println("ChibaHelper.startsWith benchPath");
 				int idx = requestURI.indexOf('/',benchPath.length());
 				String benchName = requestURI.substring(benchPath.length(),idx);
 				String formName = requestURI.substring(idx+1);
 				formURI = com.sun.faban.harness.common.Config.FABAN_HOME+"benchmarks/"+benchName+"/META-INF/"+formName;
+				System.out.println("  benchName="+benchName);
+				System.out.println("  formName="+formName);
+				System.out.println("  formURI="+formURI);
 				
 			}else{
+				System.out.println("ChibaHelper.else ");
+				System.out.println("  serverName="+request.getServerName());
+				System.out.println("  serverPort="+request.getServerPort());
+				System.out.println("  contextPath="+request.getContextPath());
+				System.out.println("  param[form]="+request.getParameter("form"));
+				
 				StringBuffer buffer = new StringBuffer(request.getScheme());
 				buffer.append("://");
 				buffer.append(request.getServerName());
@@ -242,28 +252,29 @@ public class ChibaHelper {
 				adapter.stylesheet = xsl.getName();
 			}else{
 				adapter.xslPath = xsltDir;
-				adapter.stylesheet = "faban.xsl";
+				adapter.stylesheet = "faban.xsl";//original
+				adapter.stylesheet = "faban-bootstrap.xsl";//new development
 			}
 			
-			adapter.xslPath="/home/wreicher/code/local/faban/stage/master/webapps/faban/xslt";
-			adapter.stylesheet="faban-bootstrap.xsl";
+			//adapter.xslPath="/home/wreicher/code/local/faban/stage/master/webapps/faban/xslt";
+			//adapter.stylesheet="faban-bootstrap.xsl";
 			
 			// http://${hostname}:9980/
             adapter.baseURI = baseURL.toString();
-            adapter.baseURI = "http://w520:9980/";
+            //adapter.baseURI = "http://w520:9980/";
             
             // ${FABAN_HOME}/stage/benchmarks/specjdriverharness/META-INF/config.xhtml
             adapter.formURI = formURI;
-            adapter.formURI = "/home/wreicher/code/local/faban/stage/benchmarks/specjdriverharness/META-INF/config.xhtml";
+            //adapter.formURI = "/home/wreicher/code/local/faban/stage/benchmarks/specjdriverharness/META-INF/config.xhtml";
 
             /// bm_submit/specjdriverharness/config.xhtml
             adapter.actionURL = actionURL;
-            adapter.actionURL="/faban/bm_submit/specjdriverharness/config.xhtml";
+            //adapter.actionURL="/faban/bm_submit/specjdriverharness/config.xhtml";
             adapter.actionURL="";
             
             // ${FABAN_HOME}/stage/master/temp
             adapter.beanCtx.put("chiba.web.uploadDir", uploadDir);
-            adapter.beanCtx.put("chiba.web.uploadDir", "/home/wreicher/code/local/faban/stage/master/temp");
+            //adapter.beanCtx.put("chiba.web.uploadDir", "/home/wreicher/code/local/faban/stage/master/temp");
             
             // standard browser user agents
             adapter.beanCtx.put("chiba.useragent", request.getHeader(
@@ -274,7 +285,7 @@ public class ChibaHelper {
             
             // file:${FABAN_HOME}/stage/benchmarks/specjdriverharness/META-INF/run.xml
             adapter.beanCtx.put("benchmark.template", srcURL);
-            adapter.beanCtx.put("benchmark.template", "file:/home/wreicher/code/local/faban/stage/benchmarks/specjdriverharness/META-INF/run.xml");
+            //adapter.beanCtx.put("benchmark.template", "file:/home/wreicher/code/local/faban/stage/benchmarks/specjdriverharness/META-INF/run.xml");
 			
             if (css != null) {
                 adapter.CSSFile = css;
@@ -303,6 +314,8 @@ public class ChibaHelper {
             adapter.generator.setOutput(out);
             adapter.buildUI();
             session.setAttribute("chiba.adapter", adapter);
+            
+            //Hack for trying to put jsf tags in xslt output
             String resp = out.getBuffer().toString().replaceAll("h_", "h:");
             
 //            String suffix = context.getExternalContext().getInitParameter("javax.faces.DEFAULT_SUFFIX");

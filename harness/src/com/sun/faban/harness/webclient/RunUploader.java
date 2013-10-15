@@ -25,6 +25,7 @@ package com.sun.faban.harness.webclient;
 
 import com.sun.faban.harness.common.Config;
 import com.sun.faban.harness.common.RunId;
+
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -40,6 +41,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -56,6 +58,7 @@ import static com.sun.faban.harness.util.FileHelper.*;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "rawtypes", "serial"})
 public class RunUploader extends HttpServlet {
 
     static Logger logger = Logger.getLogger(Deployer.class.getName());

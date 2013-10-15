@@ -23,14 +23,14 @@
  */
 package com.sun.faban.harness.security;
 
+import java.io.File;
+import java.security.Principal;
+
+import javax.security.auth.Subject;
+
 import com.sun.faban.harness.common.BenchmarkDescription;
 import com.sun.faban.harness.common.Config;
 import com.sun.faban.harness.common.RunId;
-
-import javax.security.auth.Subject;
-import java.io.File;
-import java.security.Principal;
-import java.util.logging.Logger;
 
 /**
  * The access controller that gets checked for accessing Faban resources

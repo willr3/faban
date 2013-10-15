@@ -24,6 +24,7 @@
 package com.sun.faban.harness.common;
 
 import com.sun.faban.harness.util.DeployUtil;
+
 import org.w3c.dom.Node;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -31,6 +32,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -45,6 +47,7 @@ import java.util.logging.Logger;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "serial" })
 public class BenchmarkDescription implements Serializable {
 
     /** The max time to cache a map, 10 secs. */

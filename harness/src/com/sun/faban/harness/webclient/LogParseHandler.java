@@ -2,6 +2,7 @@ package com.sun.faban.harness.webclient;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -9,6 +10,7 @@ import org.xml.sax.SAXParseException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletOutputStream;
+
 import java.util.ArrayList;
 import java.io.IOException;
 
@@ -18,6 +20,7 @@ import com.sun.faban.common.Utilities;
  * The superclass of all log handlers provides all basic services
  * to be subclassed by specific handlers or display formatters.
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 abstract class LogParseHandler extends DefaultHandler {
 
     public static final String[] ROWCLASS = { "even", "odd" };

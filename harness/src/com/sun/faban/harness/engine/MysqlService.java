@@ -24,7 +24,6 @@
 package com.sun.faban.harness.engine;
 
 import com.sun.faban.common.Command;
-
 import com.sun.faban.common.CommandHandle;
 import com.sun.faban.harness.RemoteCallable;
 import com.sun.faban.harness.RunContext;
@@ -48,6 +47,7 @@ import java.util.logging.Logger;
  * @author Shanti Subramanyam
  * @deprecated
  */
+@SuppressWarnings({ "serial" })
 @Deprecated final public class MysqlService {
 
     private static MysqlService service;

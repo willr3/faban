@@ -29,6 +29,7 @@ package com.sun.faban.harness.engine;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "serial" })
 public class RunEntryException extends Exception {
 
     /**

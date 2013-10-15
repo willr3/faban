@@ -42,7 +42,7 @@ import java.util.logging.Logger;
  * @author Ramesh Ramachandran
  * @deprecated
  */
-
+@SuppressWarnings({ "rawtypes", "unchecked" })
 @Deprecated final public class OracleService {
 
     private static OracleService oracle;

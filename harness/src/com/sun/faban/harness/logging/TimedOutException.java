@@ -29,6 +29,7 @@ package com.sun.faban.harness.logging;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "serial" })
 public class TimedOutException extends Exception {
 
     /**

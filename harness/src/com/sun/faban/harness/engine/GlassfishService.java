@@ -47,6 +47,7 @@ import java.text.SimpleDateFormat;
  * @author Akara Sucharitakul
  * @deprecated
  */
+@SuppressWarnings({ "serial" })
 @Deprecated final public class GlassfishService implements WebServerService {
 
     private static GlassfishService service = null;

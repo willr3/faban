@@ -24,6 +24,7 @@ package com.sun.faban.harness.webclient;
 
 import com.sun.faban.harness.common.Config;
 import com.sun.faban.harness.util.FileHelper;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -364,6 +365,7 @@ public class TagEngine implements Serializable{
     /**
      * Represents a chainable entry in the tag engine.
      */
+    @SuppressWarnings({ "serial" })
     static class Entry implements Serializable{
         String fullTagName;
         HashSet<String> runIds = new HashSet<String>();

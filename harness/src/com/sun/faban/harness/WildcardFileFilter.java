@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
  * interprets them like a shell. For example, "*.exe" will match all
  * files starting ending with .exe extension.
  */
+@SuppressWarnings({ "serial" })
 public class WildcardFileFilter implements FileFilter {
 
     Pattern pattern;

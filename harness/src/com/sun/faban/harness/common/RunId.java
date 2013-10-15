@@ -32,6 +32,7 @@ import java.io.File;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "rawtypes" })
 public class RunId implements Comparable {
 
     private String host;

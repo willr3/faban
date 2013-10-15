@@ -30,6 +30,7 @@ import com.sun.faban.harness.security.Acl;
 import com.sun.faban.harness.util.FileHelper;
 import com.sun.faban.harness.util.XMLException;
 import com.sun.faban.harness.util.XMLReader;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -46,6 +47,7 @@ import java.util.logging.Logger;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class RunAnalyzer {
     XMLReader reader;
     ArrayList<String> rtPercentList[];

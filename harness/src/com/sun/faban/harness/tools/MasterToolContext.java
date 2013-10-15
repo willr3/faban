@@ -21,14 +21,10 @@
  */
 package com.sun.faban.harness.tools;
 
-import com.sun.faban.harness.services.ServiceContext;
-import java.io.IOException;
-
 import java.io.Serializable;
-import java.util.Set;
 import java.util.StringTokenizer;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
+
+import com.sun.faban.harness.services.ServiceContext;
 
 /**
  * The master tool context is the master view of the tool context which exists

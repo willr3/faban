@@ -45,6 +45,7 @@ import java.util.logging.Logger;
  * @author Ramesh Ramachandran
  * @deprecated Replaced by the services/tools infrastructure
  */
+@SuppressWarnings({ "rawtypes", "serial" })
 @Deprecated public class OracleAgentImpl extends UnicastRemoteObject
         implements OracleAgent, Unreferenced {
 

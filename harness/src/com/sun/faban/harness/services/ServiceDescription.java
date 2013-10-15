@@ -22,7 +22,6 @@
 package com.sun.faban.harness.services;
 
 import java.io.Serializable;
-import java.util.logging.Logger;
 
 /**
  * This class provides the description for each service.

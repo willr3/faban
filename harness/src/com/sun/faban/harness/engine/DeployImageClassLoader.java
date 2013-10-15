@@ -39,6 +39,7 @@ import java.util.logging.Logger;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class DeployImageClassLoader extends URLClassLoader {
 
     private static Logger logger = Logger.getLogger(

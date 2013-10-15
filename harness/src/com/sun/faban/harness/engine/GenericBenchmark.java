@@ -23,8 +23,12 @@
  */
 package com.sun.faban.harness.engine;
 
-import com.sun.faban.common.Command;
-import com.sun.faban.common.CommandHandle;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.sun.faban.harness.ConfigurationException;
 import com.sun.faban.harness.ParamRepository;
 import com.sun.faban.harness.common.BenchmarkDescription;
@@ -32,12 +36,6 @@ import com.sun.faban.harness.common.Config;
 import com.sun.faban.harness.common.HostRoles;
 import com.sun.faban.harness.common.Run;
 import com.sun.faban.harness.services.ServiceManager;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * GenericBenchmark.java
@@ -81,7 +79,6 @@ public class GenericBenchmark {
      * Responsible for configuring, starting and stopping services and tools.
      * Creates the actual benchmark object and requests it to execute the run.
      */
-    @SuppressWarnings("static-access")
     public void start() {
         ParamRepository par = null;
         ServerConfig server;

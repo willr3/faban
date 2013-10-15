@@ -21,11 +21,10 @@
  */
 package com.sun.faban.harness.tools;
 
-import com.sun.faban.harness.services.ServiceDescription;
-
 import java.io.Serializable;
 import java.util.Map;
-import java.util.logging.Logger;
+
+import com.sun.faban.harness.services.ServiceDescription;
 
 /**
  * This class provides the description of a tool.

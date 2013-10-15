@@ -44,7 +44,7 @@ import java.util.logging.Logger;
  *
  * @author Ramesh Ramachandran
  */
-
+@SuppressWarnings({ "rawtypes","unchecked" })
 public class RunQ {
 
     RunDaemon runDaemon = null;

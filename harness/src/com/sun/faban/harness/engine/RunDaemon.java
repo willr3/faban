@@ -32,8 +32,8 @@ import com.sun.faban.harness.logging.XMLFormatter;
 import com.sun.faban.harness.util.FileHelper;
 import com.sun.faban.harness.webclient.RunRetriever;
 import com.sun.faban.harness.webclient.RunUploader;
-
 import com.sun.faban.harness.webclient.TagEngine;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,6 +60,7 @@ import java.util.logging.Logger;
  * @author Ramesh Ramachandran
  *
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class RunDaemon implements Runnable {
 
     Thread runDaemonThread = null;

@@ -23,18 +23,18 @@
  */
 package com.sun.faban.harness.agent;
 
-import com.sun.faban.harness.common.Run;
-
-import java.rmi.RemoteException;
+import java.io.IOException;
 import java.rmi.Remote;
-import java.io.*;
-import java.util.*;
+import java.util.List;
+
+import com.sun.faban.harness.common.Run;
 
 /**
  * An agent for controlling the Oracle database.
  * @author Ramesh Ramachandran
  * @deprecated Replaced by the services/tools infrastructure
  */
+@SuppressWarnings({ "rawtypes" })
 @Deprecated public interface OracleAgent extends Remote {
 
     /**

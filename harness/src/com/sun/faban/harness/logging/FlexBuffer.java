@@ -38,6 +38,7 @@ import java.io.IOException;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class FlexBuffer {
 
     /** Carriage return. */

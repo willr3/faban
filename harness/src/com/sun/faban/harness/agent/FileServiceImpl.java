@@ -42,6 +42,7 @@ import java.rmi.server.UnicastRemoteObject;
  * @author Ramesh Ramachandran
  * @see com.sun.faban.harness.agent.FileService
  */
+@SuppressWarnings({ "serial" })
 class FileServiceImpl extends UnicastRemoteObject
         implements FileService {
 

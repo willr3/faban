@@ -29,6 +29,7 @@ import com.sun.faban.harness.common.BenchmarkDescription;
 import com.sun.faban.harness.common.Config;
 import com.sun.faban.harness.common.RunId;
 import com.sun.faban.harness.util.FileHelper;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -40,6 +41,7 @@ import org.apache.commons.httpclient.methods.multipart.StringPart;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.io.*;
 import java.net.URL;
 import java.text.ParseException;
@@ -53,6 +55,7 @@ import static com.sun.faban.harness.util.FileHelper.*;
 /**
  * Controller handling actions from the result list screen.
  */
+
 public class ResultAction {
 
     private static Logger logger =
@@ -88,6 +91,7 @@ public class ResultAction {
      * The model object for the EditArchive screen view.
      * This is according to the MVC pattern.
      */
+    @SuppressWarnings({ "serial" })
     public class EditArchiveModel implements Serializable {
 
         /** The display header. */
@@ -256,6 +260,7 @@ public class ResultAction {
      * The model object for the EditAnalysis screen view.
      * This is according to the MVC pattern.
      */
+    @SuppressWarnings({ "serial" })
     public static class EditAnalysisModel implements Serializable {
         /** The header, usually the process type. */
         public String head;
@@ -494,7 +499,6 @@ public class ResultAction {
 
     }
 
-    @SuppressWarnings("empty-statement")
     private void prepareUpload(HttpServletRequest request, RunResult result,
                     HashSet<String> uploadedRuns, HashSet<File> uploadSet)
             throws IOException, ClassNotFoundException {

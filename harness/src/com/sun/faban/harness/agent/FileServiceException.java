@@ -27,6 +27,7 @@ package com.sun.faban.harness.agent;
  * The FileServiceException indicates an error accessing the file from
  * the file service.
  */
+@SuppressWarnings({ "serial" })
 public class FileServiceException extends Exception {
 
   /**

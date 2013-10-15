@@ -32,6 +32,7 @@ import java.util.logging.Logger;
  *
  * @author Sheetal Patil, Sun Microsystems.
  */
+@SuppressWarnings({ "rawtypes"})
 public class AnnotationBenchmarkWrapper extends BenchmarkWrapper {
 
     private static Logger logger =

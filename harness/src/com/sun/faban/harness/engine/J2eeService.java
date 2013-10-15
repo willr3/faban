@@ -35,6 +35,7 @@ import java.util.Properties;
  * @author Ramesh Ramachandran
  * @deprecated
  */
+@SuppressWarnings({ "rawtypes" })
 @Deprecated public interface J2eeService {
     
     /**

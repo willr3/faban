@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
+
 import java.io.IOException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
  *
  * @author Akara Sucharitakul
  */
+@SuppressWarnings({ "rawtypes", "serial", "unchecked" })
 public class ContentReader extends HttpServlet {
     ObjectPool bufferPool = new ObjectPool();
 

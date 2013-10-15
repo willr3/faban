@@ -45,6 +45,7 @@ import java.util.logging.Logger;
  * @author Shanti Subramanyam based on work by Kim LiChong
  * @deprecated
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 @Deprecated public class MemcacheStats {
 
     private static StatsClient cache = null;
