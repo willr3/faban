@@ -1,0 +1,59 @@
+<!DOCTYPE html[
+        <!ENTITY times "&#215;">
+]>
+<ui:composition template="/templates/bootstrap.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+>
+	<ui:param name="active" value="none" />
+	<ui:define name="content">
+		<ui:repeat value="#{facesContext.messageList}" var="facesMessage">
+			<div class="alert alert-dismissable #{facesMessage.severity.ordinal eq 0 ? 'alert-success' : 'alert-danger'}">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<strong>#{facesMessage.summary}</strong>
+				#{facesMessage.detail}
+			</div>
+		</ui:repeat>	
+		<!-- TODO use h:messages with different html -->
+		<h:form class="form-horizontal" role="form" name="Standard" action="" method="POST" enctype="multipart/form-data">
+			<div class="form-group">
+				<label class="col-lg-3 control-label" for="user">Login ID</label>
+				<div class="col-lg-6">
+					<!--  <input class="form-control" type="text" id="user" name="user" placeholder="user name"></input> -->
+					<h:inputText class="form-control" id="user" name="user" value="#{deploy.user}" p:placehodler="user name"></h:inputText>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label" for="password">Password</label>
+				<div class="col-lg-6">
+					<!--  <input class="form-control" type="password" id="password" name="password" placeholder="password"></input> -->
+					<h:inputSecret class="form-control" id="password" name="password" value="#{deploy.password}" p:placehodler="user password"></h:inputSecret>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-lg-offset-3 col-lg-6">
+					<!--  <input class="" type="file" id="jarfile" name="jarfile"></input> -->
+					<h:inputFile id="jarfile" name="jarfile" value="#{deploy.uploadedFile}"></h:inputFile>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-lg-offset-3 col-lg-6">
+					<!-- <input type="checkbox" name="clearconfig"></input> -->
+					<label>
+						
+						<h:selectBooleanCheckbox id="clearconfig" value="#{deploy.clearConfig}"></h:selectBooleanCheckbox>
+						Clear previous configuration
+					</label>
+				</div>
+			</div>			
+			<div class="form-group">
+				<div class="col-lg-offset-3 col-lg-6">
+					<h:commandButton type="submit" name="Submit" class="btn btn-primary" action="#{deploy.uploadFile}" value="Deploy"></h:commandButton>
+				</div>
+			</div>						
+		</h:form>
+	</ui:define>
+</ui:composition>	
