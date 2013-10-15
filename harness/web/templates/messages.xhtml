@@ -1,0 +1,17 @@
+<!DOCTYPE html[
+        <!ENTITY times "&#215;">
+]>
+<ui:fragment
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+	<ui:repeat value="#{facesContext.messageList}" var="facesMessage">
+		<div class="alert alert-dismissable #{facesMessage.severity.ordinal eq 0 ? 'alert-success' : 'alert-danger'}">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			<strong>#{facesMessage.summary}</strong>
+			#{facesMessage.detail}
+		</div>
+	</ui:repeat>
+</ui:fragment>    
