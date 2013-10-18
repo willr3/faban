@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html 
 	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
-	
 >
 	<head>
 		<title>#{BenchmarkDescription.bannerName} [#{Config.FABAN_HOST}]</title>
+		<link rel="icon" type="image/gif" href="#{facesContext.externalContext.requestContextPath}/img/faban.png" />
 		<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/css/bootstrap.css"/>
 		<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/css/font-awesome.css"/>
 		<!--  <link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/css/bootstrap-theme.css"/> -->
@@ -19,30 +18,50 @@
 	</head>
 	<body>
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<ui:param name="Qcount" value="${RunQ.count}"></ui:param>
 			<a class="navbar-brand" href="./">Faban</a>
-			<c:if test="#{Config.SECURITY_ENABLED or true}">
-				<button type="button" class="btn btn-default navbar-btn  pull-right">Sign in</button>	
-			</c:if>
+			<button type="button" class="btn btn-default navbar-btn  pull-right">Sign in</button>	
 			<p class="navbar-text pull-right">#{BenchmarkDescription.bannerName} #{BenchmarkDescription.bannerVersion}</p>
-			<p class="navbar-text">#{faban.submit.template}</p>
 		</nav>
 		<div class="col-md-2">
 			<nav class="sidebar sidebar-fixed">
 				<ul class="nav nav-pills nav-stacked">
-		 			<li class="#{active == 'newRun' ? 'active' : ''}"><a href="new-run.jsf">Schedule Run</a></li>
-	 				<li class="#{active == 'suspend' ? 'active' : ''}"><a href="suspend-runs.jsf">Suspend Pending Runs</a></li>
-	 				<li class="#{active == 'resume' ? 'active' : ''}"><a href="resume-runs.jsf">Resume Pending Runs</a></li>
-	 				<li class="#{active == 'kill' ? 'active' : ''}"><a href="kill-run.jsf">Kill Current Run</a></li>
-	 				<li class="#{active == 'results' ? 'active' : ''}"><a href="result-list.jsf">View Results</a></li>
-	 				<li class="#{active == 'pending' ? 'active' : ''}"><a href="pending-runs.jsf">View Pending Runs</a></li>
-	 				<li class="#{active == 'profile' ? 'active' : ''}"><a href="selectprofile.jsf">Switch Profile</a></li>
-	 				<li class="#{active == 'help' ? 'active' : ''}"><a href="#">Help</a></li>
+		 			<li class="#{active == 'newRun' ? 'active' : ''}">
+		 				<a href="new-run.jsf">Schedule Run</a>
+	 				</li>
+	 				<li class="#{active == 'suspend' ? 'active' : ''}">
+	 					<a href="suspend-runs.jsf">Suspend Pending Runs</a>
+ 					</li>
+	 				<li class="#{active == 'resume' ? 'active' : ''}">
+	 					<a href="resume-runs.jsf">Resume Pending Runs</a>
+					</li>
+	 				<li class="#{active == 'kill' ? 'active' : ''}">
+	 					<a href="kill-run.jsf">Kill Current Run</a>
+ 					</li>
+	 				<li class="#{active == 'results' ? 'active' : ''}">
+	 					<a href="result-list.jsf">View Results</a>
+ 					</li>
+	 				<li class="#{active == 'pending' ? 'active' : ''}">
+	 					<a href="pending-runs.jsf">
+	 						View Pending Runs
+	 						<h:panelGroup rendered="#{Qcount > 0}">
+	 							<ui:fragment>
+	 								<span class="badge pull-right">#{Qcount}</span>
+ 								</ui:fragment>
+	 						</h:panelGroup>
+ 						</a>
+ 					</li>
+	 				<li class="#{active == 'profile' ? 'active' : ''}">
+	 					<a href="selectprofile.jsf">Switch Profile</a>
+ 					</li>
+	 				<li class="#{active == 'help' ? 'active' : ''}">
+	 					<a href="#">Help</a>
+ 					</li>
 				</ul>		
 			</nav>
 		</div>
 		<div class="col-md-10">
-			
-			<ui:insert name="content" />		
+			<ui:insert name="content" >Content goes here</ui:insert>		
 		</div>
 		<script src="#{facesContext.externalContext.requestContextPath}/scripts/jquery.min.js"></script>
 		<script src="#{facesContext.externalContext.requestContextPath}/scripts/bootstrap.min.js"></script>

@@ -30,18 +30,6 @@
         <xsl:variable name="pos" select="position()"/>
         <xsl:variable name="id" select="@id"/>
 
-        <xsl:if test="$debug-enabled">
-            <xsl:message>###repeat-id:
-                <xsl:value-of select="$repeat-id"/>
-            </xsl:message>
-            <xsl:message>###has repeat-id:
-                <xsl:value-of select="boolean(string-length($repeat-id) > 0)"/>
-            </xsl:message>
-            <xsl:message>###position:
-                <xsl:value-of select="position()"/>
-            </xsl:message>
-        </xsl:if>
-
         <xsl:choose>
             <!-- input bound to 'date' or 'dateTime' type -->
             <xsl:when test="chiba:data[@chiba:type='date' or @chiba:type='dateTime']">
@@ -122,7 +110,7 @@
             <xsl:attribute name="src">
                 <xsl:value-of select="xforms:label/@xlink:href"/>
             </xsl:attribute>
-            <xsl:attribute name="class">value</xsl:attribute>
+            <xsl:attribute name="class">form-control</xsl:attribute>
             <xsl:if test="chiba:data/@chiba:readonly='true'">
                 <xsl:attribute name="disabled">disabled</xsl:attribute>
             </xsl:if>
@@ -294,7 +282,7 @@
                     <xsl:call-template name="assembleRepeatClasses">
                         <xsl:with-param name="repeat-id" select="$repeat-id"/>
                         <xsl:with-param name="pos" select="$pos"/>
-                        <xsl:with-param name="classes" select="'value'"/>
+                        <xsl:with-param name="classes" select="'form-control'"/>
                     </xsl:call-template>
                     <xsl:if test="chiba:data/@chiba:readonly='true'">
                         <xsl:attribute name="disabled">disabled</xsl:attribute>
@@ -335,7 +323,7 @@
                     <xsl:call-template name="assembleRepeatClasses">
                         <xsl:with-param name="repeat-id" select="$repeat-id"/>
                         <xsl:with-param name="pos" select="$pos"/>
-                        <xsl:with-param name="classes" select="'value'"/>
+                        <xsl:with-param name="classes" select="'form-control'"/>
                     </xsl:call-template>
                     <xsl:if test="chiba:data/@chiba:readonly='true'">
                         <xsl:attribute name="disabled">disabled</xsl:attribute>
@@ -382,11 +370,11 @@
                     <xsl:if test="chiba:data/@chiba:readonly='true'">
                         <xsl:attribute name="disabled">disabled</xsl:attribute>
                     </xsl:if>
-                    <xsl:attribute name="class">value</xsl:attribute>
+                    <xsl:attribute name="class">form-control</xsl:attribute>
                     <xsl:call-template name="assembleRepeatClasses">
                         <xsl:with-param name="repeat-id" select="$repeat-id"/>
                         <xsl:with-param name="pos" select="$pos"/>
-                        <xsl:with-param name="classes" select="'value'"/>
+                        <xsl:with-param name="classes" select="'form-control'"/>
                     </xsl:call-template>
                     <xsl:if test="$scripted='true'">
                         <xsl:attribute name="onchange">javascript:setXFormsValue('
@@ -430,7 +418,7 @@
                     <xsl:call-template name="assembleRepeatClasses">
                         <xsl:with-param name="repeat-id" select="$repeat-id"/>
                         <xsl:with-param name="pos" select="$pos"/>
-                        <xsl:with-param name="classes" select="'value'"/>
+                        <xsl:with-param name="classes" select="'form-control'"/>
                     </xsl:call-template>
                     <xsl:if test="$scripted='true'">
                         <xsl:attribute name="onchange">javascript:setXFormsValue('
@@ -527,7 +515,7 @@
             <xsl:call-template name="assembleRepeatClasses">
                 <xsl:with-param name="repeat-id" select="$repeat-id"/>
                 <xsl:with-param name="pos" select="$pos"/>
-                <xsl:with-param name="classes" select="'value'"/>
+                <xsl:with-param name="classes" select="'form-control'"/>
             </xsl:call-template>
 
         </xsl:element>
@@ -567,7 +555,7 @@
             <xsl:call-template name="assembleRepeatClasses">
                 <xsl:with-param name="repeat-id" select="$repeat-id"/>
                 <xsl:with-param name="pos" select="$pos"/>
-                <xsl:with-param name="classes" select="'value'"/>
+                <xsl:with-param name="classes" select="'form-control'"/>
             </xsl:call-template>
             <xsl:if test="chiba:data/@chiba:readonly='true'">
                 <xsl:attribute name="disabled">disabled</xsl:attribute>

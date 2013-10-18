@@ -10,53 +10,41 @@
 >
 	<ui:param name="active" value="pending" />
 	<ui:define name="content">
-		<div class="alert alert-dismissable alert-success">
-  		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-  		<strong>Success!</strong> You have removed <strong>4</strong> runs.
-  		<a class="alert-link pull-right" href="#">Undo</a>
-		</div>
-		<form role="form" method="post" action="#">
-			<div class="form-group">
- 				<button type="submit" class="btn btn-danger">Remove</button>
- 				<button type="reset" class="btn btn-default">Reset</button>
-			</div>
-			<div class="form-group">
-				<table class="table table-striped table-bordered">
-					<thead>
-						<tr>
-							<th>Run ID</th>
-							<th>Benchmark</th>
-							<th>Description</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>
-								<input type="checkbox" id="1A" value="runqDir" />
-	 							<label class="" for="1A">1A</label>
-	 						</td>
-							<td>webLoad</td>
-							<td>google.com</td>
-						</tr>
-						<tr>
-							<td>
-								<input type="checkbox" id="1B" value="runqDir" />
-								<label class="" for="1B">1B</label>
-							</td>
-							<td>webLoad</td>
-							<td>yahoo.com</td>
-						</tr>
-						<tr>
-							<td>
-								<input type="checkbox" id="1C" value="runqDir" />
-								<label class="" for="1C">1C</label>
-							</td>
-							<td>webLoad</td>
-							<td>cnn.com</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</form>
+		<ui:include src="/templates/messages.xhtml"></ui:include>
+		<h:panelGroup rendered="#{Qcount eq 0}">
+			<div class="well">There are no pending runs.</div>
+		</h:panelGroup>
+		<h:panelGroup rendered="#{Qcount > 0}">
+			<h:form role="form" method="post">
+				<div class="form-group">
+	 				<h:commandButton type="submit" action="#{pending.remove}" class="btn btn-danger" value="Remove"></h:commandButton>
+	 				<button type="reset" class="btn btn-default">Reset</button>
+				</div>
+				<div class="form-group">
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Run ID</th>
+								<th>Benchmark</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<ui:repeat value="#{RunQ.listRunQ}" var="run">
+								<tr>
+									<td>
+										<input type="checkbox" id="#{run[0]}" name="selected-runs" value="#{run[1]}.#{run[0]}"></input>
+										<label for="#{run[0]}">#{run[0]}</label>
+									</td>
+									<td>#{run[1]}</td>
+									<td>#{run[2]}</td>
+								</tr>
+							</ui:repeat>
+						</tbody>
+					</table>
+				</div>
+			</h:form>
+		</h:panelGroup>
+
 	</ui:define>
 </ui:composition>

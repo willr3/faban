@@ -1,55 +1,128 @@
-<!DOCTYPE html[
-    <!ENTITY copy "&#169;">
-    <!ENTITY eacute "&#201;">
-]>
-<ui:composition template="/templates/bootstrap.xhtml"
+<!DOCTYPE html>
+<!-- resultlist.jsp -->
+<ui:composition 
+	template="/templates/bootstrap.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 >
-	<ui:param name="active" value="results" />
+	<ui:param name="active" value="results" ></ui:param>
 	<ui:define name="content">
-
-			<form name="processrun" role="form" method="post" action="#">
+		<ui:param name="resultList" value="${resultbean.list}"></ui:param>
+		<h:panelGroup rendered="#{fn:length(resultList) == 0}">
+			<ui:fragment>
+				<div class="well">
+				There are no results
+				</div>
+			</ui:fragment>
+		</h:panelGroup>		
+		<h:panelGroup rendered="#{fn:length(resultList) > 0}">
+			<ui:fragment>
+			<h:form name="processrun" role="form" method="post" action="#">
 				<div class="form-group">
 					<button class="btn btn-danger" type="submit" name="process" value="Delete">Delete</button> 
 					<button class="btn btn-info" type="submit" name="process" value="Compare">Compare</button>
 					<button type="reset" class="btn btn-default">Reset</button>
 				</div>
-				<div class="form-group">
-					<table class="table table-striped table-bordered">
+				<div class="form-group"><!-- pre-table --><table class="table table-striped table-bordered">
 						<thead>
 							<tr>
 								<th></th>
-								<th>Run ID</th>
-								<th>Description</th>
-								<th>Result</th>
-								<th>Scale</th>
-								<th>Metric</th>
-								<th>Date/Time</th>
-								<th>Submitter</th>
-								<th>Tags</th>
+								<ui:param name="colHdrs" value="RunID,Description,Result,Scale,Metric,Date/Time,Submitter,Tags"></ui:param>
+								<ui:repeat value="#{fn:split(colHdrs,',')}" var="hdr" varStatus="hdrStatus">
+									<th>
+										<h:commandLink action="#{resultbean.sort(hdrStatus.index)}">
+										#{hdr}
+										<h:panelGroup rendered="#{resultbean.sortColumn==hdrStatus.index}">
+											<h:panelGroup rendered="#{resultbean.direction == 'DESCENDING'}">
+												<i class="icon-sort-down pull-right"> </i>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{resultbean.direction == 'ASCENDING'}">
+												<i class="icon-sort-up pull-right"> </i>
+											</h:panelGroup>
+										</h:panelGroup>
+										</h:commandLink>
+									</th>
+								</ui:repeat>
 							</tr>
 						</thead>
 						<tbody>
+						<ui:repeat value="#{resultList}" var="rslt">
 							<tr>
-								<td><input type="checkbox" name="select" id="1A" value="webload.1A" /></td>
-								<td>webload.1A</td>
-								<td>This is the description for this run</td>
-								<td>Result </td>
-								<td>1</td>
-								<td>n/a</td>
-								<td>10/10/13 13:00:00</td>
-								<td></td>
-								<td></td>
-							</tr>
+								<td>
+									<input type="checkbox" id="id" name="" value=""></input>
+								</td>
+								<td>#{rslt.runId}</td>
+								<td>#{rslt.description}</td>
+								<td>
+									<h:panelGroup rendered="#{rslt.result eq 'PASSED'}">
+										<span class="text-success">
+											<i class="icon-ok "></i>
+											passed
+										</span>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{rslt.result eq 'FAILED'}">
+										<span class="text-danger">
+											<i class="icon-thumbs-down"></i>
+											failed
+										</span>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{rslt.result eq 'KILLED'}">
+										<span class="text-danger">
+											<i class="icon-stop"> </i>
+											killed
+										</span>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{rslt.result eq 'RECEIVED'}">
+										<span class="text-primary">
+											<i class="icon-envelope label label-primary"> </i>
+											received
+										</span>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{rslt.result eq 'STARTED'}">
+										<span class="text-info">
+											<i class="icon-play"> </i>
+											started
+										</span>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{rslt.result eq 'COMPLETED'}">
+										<span class="text-danger">
+											<i class="icon-thumbs-down"> </i>
+											complete
+										</span>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{rslt.result eq 'UNKNOWN'}">
+										<span class="text-muted">
+											<i class="icon-question"> </i>
+											unknown
+										</span>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{rslt.result eq 'NOT_AVAILABLE'}">
+										<span class="text-default">
+											<i class="icon-question"> </i>
+											not available
+										</span>
+									</h:panelGroup>
+								</td>
+								<td>#{rslt.scale}</td>
+								<td>#{rslt.metric}</td>
+								<td>#{rslt.dateTime}</td>
+								<td>#{rslt.submitter}</td>
+								<td>
+									<ui:repeat value="#{rslt.tags}" var="tag">
+										<span class="label label-default">#{tag}</span>
+									</ui:repeat>
+								</td>
+							</tr>								
+						</ui:repeat>
 						</tbody>
 					</table>
 				</div>
-			</form>
-				
-
+			</h:form>
+			</ui:fragment>
+		</h:panelGroup>
 	</ui:define>
 </ui:composition>

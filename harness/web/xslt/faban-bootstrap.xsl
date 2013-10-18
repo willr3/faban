@@ -21,9 +21,9 @@
     </xsl:template>
 
     <xsl:template match="body">
-            <!--<form class="form-horizontal" role="form" action="{$action-url}" method="post" > -->
+            <form class="form-horizontal" role="form" action="{$action-url}" method="post" >
                 <xsl:apply-templates/>
-            <!--</form> -->
+            </form>
     </xsl:template>
 
     <xsl:template match="xforms:model"/>
