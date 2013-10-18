@@ -90,7 +90,21 @@ public class StaticResolver extends javax.el.ELResolver{
 				}
 			}
 		}else if (base instanceof RunQ){
-			
+			if(property instanceof String){
+				String prop = (String)property;
+				if("count".equals(prop)){
+					ctx.setPropertyResolved(true);
+					String[][] l = RunQ.getHandle().listRunQ();
+					return l==null ? 0 : l.length;
+				}else if ("listRunQ".equals(prop)){
+					ctx.setPropertyResolved(true);
+					String[][] l = RunQ.getHandle().listRunQ();
+					if (l == null){
+						l = new String[][]{};
+					}
+					return l;
+				}
+			}
 		}else if (base instanceof StaticWrap){
 			
 			StaticWrap wrapper = (StaticWrap)base;

@@ -11,9 +11,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,24 +27,59 @@ import org.apache.log4j.Logger;
 import org.chiba.adapter.ChibaAdapter;
 import org.chiba.xml.xforms.config.Config;
 
+import com.sun.faban.harness.web.loader.BenchmarkLoader;
+import com.sun.faban.harness.web.pojo.Benchmark;
 import com.sun.faban.harness.webclient.XFormServlet.Adapter;
 
 @ManagedBean(name="chiba")
 @SessionScoped
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class ChibaHelper {
+	
+	@ManagedProperty(value="#{faban}")
+	private FabanSessionBean faban;
 
 	static final Logger logger = Logger.getLogger(ChibaHelper.class.getName());
 	
-	private String configFile="/WEB-INF/chiba-config.xml";//TODO read chiba.config from web.xml 
+	private String configFile;//TODO read chiba.config from web.xml 
 	private String ctxRoot;
 	private String uploadDir;
 	private String xsltDir;
 	private String errPage;
 
 	public ChibaHelper(){
-		FacesContext context = FacesContext.getCurrentInstance();  
-		//configFile = context.getExternalContext().getInitParameter("chiba.config");
+		
+	}
+	@PostConstruct
+	public void postConstruct(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext ext = context.getExternalContext();
+		HttpServletRequest request = (HttpServletRequest)ext.getRequest();
+		HttpServletResponse response = (HttpServletResponse)context.getExternalContext().getResponse();
+		HttpSession session = request.getSession(false);
+		ServletContext ctx = session.getServletContext();
+
+		String configPath = ext.getInitParameter("chiba.config");
+		if(configPath==null || configPath.trim().isEmpty()){
+			configPath="WEB-INF/chiba-config.xml";
+		}
+		configFile = ctx.getRealPath(configPath);
+		xsltDir = ctx.getRealPath("xslt");
+		try {
+			File tmp = File.createTempFile("tmpDir", "tmpDir");
+			uploadDir = tmp.getParent();
+			
+			tmp.delete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	public FabanSessionBean getFaban(){return faban;}
+	public void setFaban(FabanSessionBean faban){
+		this.faban = faban;
 	}
 	
 	public String updateForm() throws IOException{
@@ -63,7 +102,6 @@ public class ChibaHelper {
 		}
 		
 	}
-	
 	
 	public String doPost(){
 		System.out.println("doPost()");
@@ -172,16 +210,18 @@ public class ChibaHelper {
 		
 		Adapter adapter = null;
 		
-		String templateFile = (String)session.getAttribute("faban.submit.template");
-		if(templateFile==null) templateFile="/dev/null";
+		BenchmarkLoader benchLoader = new BenchmarkLoader();
 		
-		String styleSheet = (String)session.getAttribute("faban.submit.stylesheet");
-		if(styleSheet==null) styleSheet="/dev/null";
+		Benchmark bench = benchLoader.getBenchmark(faban.getBenchmarkName());
+		
+		String templateFile = com.sun.faban.harness.common.Config.PROFILES_DIR + File.separator + faban.getProfileName() + File.separator + bench.getConfigFileName() + "." + bench.getShortName(); 
+		
+		String styleSheet = null;
+		if(bench.getConfigStylesheet()!=null && bench.getConfigStylesheet().isEmpty()){
+			styleSheet = bench.getConfigStylesheet();
+		}
 		
 		String srcURL = new File(templateFile).toURI().toString();
-		
-		session.removeAttribute("faban.submit.template");
-		session.removeAttribute("faban.submit.stylesheet");
 		
 		try{
 			String requestURI = request.getRequestURI();//TODO may need to change this to a param
@@ -194,7 +234,8 @@ public class ChibaHelper {
 				int idx = requestURI.indexOf('/',benchPath.length());
 				String benchName = requestURI.substring(benchPath.length(),idx);
 				String formName = requestURI.substring(idx+1);
-				formURI = com.sun.faban.harness.common.Config.FABAN_HOME+"benchmarks/"+benchName+"/META-INF/"+formName;
+				formURI = com.sun.faban.harness.common.Config.BENCHMARK_DIR + File.separator + bench.getShortName() + File.separator + "META-INF" + File.separator + bench.getConfigForm();
+				//formURI = com.sun.faban.harness.common.Config.FABAN_HOME+"benchmarks/"+benchName+"/META-INF/"+formName;
 				System.out.println("  benchName="+benchName);
 				System.out.println("  formName="+formName);
 				System.out.println("  formURI="+formURI);
@@ -236,12 +277,12 @@ public class ChibaHelper {
 			adapter = new Adapter();
 			if(configFile != null && configFile.length() > 0 ){
 				// ${FABAN_HOME}/stage/master/webapps/faban/WEB-INF/chiba-config.xml
-				adapter.setConfigPath("/home/wreicher/code/local/faban/stage/master/webapps/faban/WEB-INF/chiba-config.xml");
-				//adapter.setConfigPath(configFile);
+				//adapter.setConfigPath("/home/wreicher/code/local/faban/stage/master/webapps/faban/WEB-INF/chiba-config.xml");
+				adapter.setConfigPath(configFile);
 			}
 			
 			File xsl = null;
-			if (styleSheet != null){
+			if (styleSheet != null && !styleSheet.isEmpty()){
 				xsl = new File(styleSheet);
 			}
 			
@@ -270,7 +311,7 @@ public class ChibaHelper {
             /// bm_submit/specjdriverharness/config.xhtml
             adapter.actionURL = actionURL;
             //adapter.actionURL="/faban/bm_submit/specjdriverharness/config.xhtml";
-            adapter.actionURL="";
+            adapter.actionURL=request.getRequestURI();
             
             // ${FABAN_HOME}/stage/master/temp
             adapter.beanCtx.put("chiba.web.uploadDir", uploadDir);

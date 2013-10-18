@@ -174,6 +174,7 @@ public class XFormServlet extends HttpServlet {
             logger.finer("Form URI: " + formURI);
 
             String css = request.getParameter("css");
+            System.out.println("XFormServlet.css = "+css);
             String actionURL = response.encodeURL(request.getRequestURI());
             logger.finer("actionURL: " + actionURL);
 
@@ -433,6 +434,11 @@ public class XFormServlet extends HttpServlet {
                 logger.finer("action URL: " + actionURL);
             }
 
+            System.out.println("Adapter.toString()="+toString());
+            System.out.println("Adapter.formUri="+formURI);
+            System.out.println("Adapter.CSS-File="+CSSFile);
+            System.out.println("Adapter.XSLT stylesheet: "+stylesheet);
+            System.out.println("Adapter.actionURL="+actionURL);
             chibaBean.init();
 
             StylesheetLoader stylesLoader = new StylesheetLoader(xslPath);
@@ -483,8 +489,9 @@ public class XFormServlet extends HttpServlet {
                 contextRoot = request.getSession().getServletContext().
                               getRealPath(".");
             }
-
+            System.out.println("Adapter.contextRoot="+contextRoot);
             String uploadDir = (String) beanCtx.get("chiba.web.uploadDir");
+            System.out.println("Adapter.uploadDir="+uploadDir);
             uploadRoot = new File(contextRoot, uploadDir).getAbsolutePath();
 
             String trigger = null;
@@ -514,6 +521,19 @@ public class XFormServlet extends HttpServlet {
         }
 
         public void buildUI() throws XFormsException {
+        	System.out.println("buildUI.beanCtx="+beanCtx);
+        	System.out.println("buildUI.xslPath="+xslPath);
+        	System.out.println("buildUI.baseURI="+baseURI);
+        	System.out.println("buildUI.formURI="+formURI);
+        	System.out.println("buildUI.actionURL="+actionURL);
+        	System.out.println("buildUI.CSSFile="+CSSFile);
+        	System.out.println("buildUI.stylesheet="+stylesheet);
+        	System.out.println("buildUI.dataPrefix="+dataPrefix);
+        	System.out.println("buildUI.selectorPrefix="+selectorPrefix);
+        	System.out.println("buildUI.triggerPrefix="+triggerPrefix);
+        	System.out.println("buildUI.removeUploadPrefix="+removeUploadPrefix);
+        	System.out.println("buildUI.uploadRoot="+uploadRoot);
+        	
             Config cfg = Config.getInstance();
             String dataPrefix = cfg.getProperty("chiba.web.dataPrefix");
             String triggerPrefix = cfg.getProperty("chiba.web.triggerPrefix");
@@ -597,6 +617,7 @@ public class XFormServlet extends HttpServlet {
 
                     if (fieldName.startsWith(removeUploadPrefix)) {
                         id = fieldName.substring(removeUploadPrefix.length());
+                        System.out.println("chibaBean.updateControlValue("+id+" ,'','',null)");
                         chibaBean.updateControlValue(id, "", "", null);
                         continue;
                     }
@@ -647,7 +668,7 @@ public class XFormServlet extends HttpServlet {
                         } else {
                             data = item.get();
                         }
-
+                    System.out.println("chibaBean.updateControlValue("+id+" , "+item.getContentType()+" , "+itemName+" , "+data+")");
                     chibaBean.updateControlValue(id, item.getContentType(),
                             itemName, data);
                 }
@@ -671,7 +692,7 @@ public class XFormServlet extends HttpServlet {
 		private String processUrlencodedRequest(HttpServletRequest request,
                                                 String trigger)
                 throws XFormsException {
-        	
+        	System.out.println("Adapter.processUrlencodedRequest");
             Map paramMap = request.getParameterMap();
             for (Iterator entries = paramMap.entrySet().iterator();
                     entries.hasNext();) {
@@ -714,6 +735,7 @@ public class XFormServlet extends HttpServlet {
                     newValue = trim( values[0] );
                 }
                 try{
+                	System.out.println("chibaBean.updateControlValue("+id+" , "+newValue+")");
                 	chibaBean.updateControlValue(id, newValue);
                 } catch(XFormsException e){
                 	e.printStackTrace();
