@@ -7,4 +7,19 @@
 	<application>
   	<el-resolver>com.sun.faban.harness.web.StaticResolver</el-resolver>
 	</application>
+	
+	<navigation-rule>
+		<from-view-id>/selectprofile.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{profileform.next}</from-action>
+			<from-outcome>retry</from-outcome>
+			<to-view-id>/selectprofile.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{profileform.next}</from-action>
+			<from-outcome>next</from-outcome>
+			<to-view-id>/new-run.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
 </faces-config>
