@@ -3,52 +3,59 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    xmlns:p="http://xmlns.jcp.org/jsf/passthrough"    
+    xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 >
 	<ui:param name="active" value="newRun" />
 	<ui:define name="content">
-		<p>
-		Sorry, Faban could not find or successfully deploy any benchmarks
-		</p>
-		<form class="form-horizontal" role="form" name="bench" method="post" action="#">
-			<div class="form-group">
-    		<label class="col-lg-3 control-label" for="benchmarkList">Benchmark</label>
-    			<div class="col-lg-6">
-		    		<select class="form-control" name="benchmarkList" id="benchmarkList" placeholder="select a benchmark">
-		    			<option >Benchmark-Alpha</option>
-		    			<option >Benchmark-Bravo</option>
-		    			<option >Benchmark-Charlie</option>
-		    		</select>
-    			</div>
-  		</div>
-			<div class="form-group">
-    		<label class="col-lg-3 control-label" for="profileList">Profile</label>
-    			<div class="col-lg-6">
-		    		<select class="form-control" name="profileList" id="">
-		    			<option selected="selected">Profile-Alpha</option>
-		    			<option >Profile-Bravo</option>
-		    			<option >Profile-Charlie</option>
-		    		</select>
-    			</div>
-  		</div>
-			<div class="form-group">
-    		<label class="col-lg-3 control-label" for="newName">or new profile</label>
-    		<div class="col-lg-6">
-    			<input class="form-control" type="text" id="newName" name="newName" placeholder="new profile name"></input>
-   			</div>
-  		</div>
-			<div class="form-group">
-    		<label class="col-lg-3 control-label" for="tags">Tags</label>
-    		<div class="col-lg-6">
-    			<textarea class="form-control" rows="3" id="tags" name="tags" placeholder="tags associated with profile"></textarea>
-   			</div>
-  		</div>
-  		<div class="form-group">
-  			<div class="col-lg-offset-3 col-lg-6">
-  				<button type="submit" class="btn btn-primary">Select</button>
-  				<button type="reset" class="btn btn-default">Reset</button>
-  			</div>
-  		</div>
-		</form>
+		<h:panelGroup rendered="#{profileform.benchmarkCount == 0}">
+			<div class="well">
+				<strong>Sorry</strong>, Faban could not find or successfully deploy any benchmarks	
+			</div>			
+		</h:panelGroup>
+		<h:panelGroup rendered="#{profileform.benchmarkCount > 0}">
+			<h:form class="form-horizontal" role="form" name="bench" method="post">
+				<div class="form-group">
+					<label class="col-lg-3 control-label" for="benchmarkList">Benchmark</label>
+					<div class="col-lg-6">
+						<h:panelGroup rendered="#{profileform.benchmarkCount == 1}">
+							<!--  <p class="form-control-static">#{benchmarkList[0].name}</p> -->
+							<input class="form-control" type="text" id="benchmarkList" name="benchmarkList" value="#{profileform.benchmarkName}" disabled="disabled"></input>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{profileform.benchmarkCount > 1}">
+							<h:selectOneMenu class="form-control" name="benchmarkList" id="benchmarkList" value="#{profileform.benchmarkName}" onchange="submit();" valueChangeListener="#{profileform.benchmarkChange}">
+								<f:selectItems value="#{profileform.benchmarks}" var="bench" itemLabel="#{bench}" itemValue="#{bench}"></f:selectItems>
+							</h:selectOneMenu>
+						</h:panelGroup>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-3 control-label" for="profileList">Profile</label>
+					<div class="col-lg-6">
+						<h:selectOneMenu class="form-control" name="profileList" id="profileList" value="#{profileform.profileName}" onchange="submit();" valueChangeListener="#{profileform.profileChange}">
+							<f:selectItems value="#{profileform.profiles}" var="profile" itemLabel="#{profile.name}" itemValue="#{profile.name}"></f:selectItems>
+						</h:selectOneMenu>
+					</div>
+				</div>
+				<div class="form-group">
+	    		<label class="col-lg-3 control-label" for="newName">or new profile</label>
+	    		<div class="col-lg-6">
+	    			<h:inputText class="form-control" type="text" id="newName" name="newName" p:placeholder="new profile name" value="#{profileform.newProfileName}"></h:inputText>
+	   			</div>
+	  		</div>
+				<div class="form-group">
+					<label class="col-lg-3 control-label" for="tags">Tags</label>
+					<div class="col-lg-6">
+						<h:inputTextarea class="form-control" rows="3" id="tags" name="tags" p:placeholder="profile tags"></h:inputTextarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-offset-3 col-lg-6">
+						<h:commandButton type="submit" class="btn btn-primary" value="Select" action="#{profileform.next}"></h:commandButton>
+						<button type="reset" class="btn btn-default">Reset</button>
+					</div>
+				</div>
+			</h:form>		
+		</h:panelGroup>		
 	</ui:define>
 </ui:composition>
