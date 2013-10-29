@@ -87,6 +87,9 @@ public class StaticResolver extends javax.el.ELResolver{
 				}else if ("SECURITY_ENABLED".equals(prop)){
 					ctx.setPropertyResolved(true);
 					return Config.SECURITY_ENABLED;
+				}else if ("OUT_DIR".equals(prop)){
+					ctx.setPropertyResolved(true);
+					return Config.OUT_DIR;
 				}
 			}
 		}else if (base instanceof RunQ){

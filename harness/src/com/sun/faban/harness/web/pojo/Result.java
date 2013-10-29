@@ -27,8 +27,14 @@ public class Result implements Serializable{
 	private Date dateTime;
 	private String submitter;
 	private List<String> tags;
-
+	private String resultFile;
+	
 	public Result(){}
+	
+	public String getResultFile(){return resultFile;}
+	public void setResultFile(String resultFile){
+		this.resultFile=resultFile;
+	}
 	
 	public long getModTime() {
 		return modTime;

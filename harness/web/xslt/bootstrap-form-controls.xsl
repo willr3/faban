@@ -443,6 +443,22 @@
         <xsl:variable name="repeat-id" select="ancestor::*[name(.)='xforms:repeat'][1]/@id"/>
         <xsl:variable name="pos" select="position()"/>
         <xsl:variable name="id" select="@id"/>
+        <xsl:message>
+            textarea.id=<xsl:value-of select="$id"/>
+        </xsl:message>
+        <xsl:message>
+            textarea.id=<xsl:value-of select="$id"/>.data=<xsl:value-of select="chiba:data/text()"/>
+        </xsl:message>
+        <xsl:if test="chiba:data/text()=null">
+            <xsl:message>NULLLLLLLLLLLLL
+            </xsl:message>
+        </xsl:if>
+        <xsl:if test="chiba:data/text()=''">
+            <xsl:message>EMPTYYYYYYYYYYYYYYY
+            </xsl:message>
+        </xsl:if>
+
+
 
         <xsl:element name="textarea">
             <xsl:attribute name="id">
@@ -453,10 +469,7 @@
             </xsl:attribute>
             <xsl:attribute name="title">
                 <xsl:value-of select="normalize-space(./xforms:hint)"/>
-            </xsl:attribute>
-            <xsl:attribute name="rows">
-                <xsl:value-of select="'3'"/>
-            </xsl:attribute>
+            </xsl:attribute>            
             <xsl:if test="chiba:data/@chiba:readonly='true'">
                 <xsl:attribute name="disabled">disabled</xsl:attribute>
             </xsl:if>
@@ -471,6 +484,9 @@
                 </xsl:attribute>
             </xsl:if>
             <xsl:value-of select="chiba:data/text()"/>
+            <xsl:message>
+                html-form-control.xsl.data=<xsl:value-of select="chiba:data/text()"/>
+            </xsl:message>
         </xsl:element>
 
         <xsl:call-template name="handleRequired"/>

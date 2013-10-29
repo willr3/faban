@@ -140,20 +140,26 @@ public class ProfileFormBean {
 	//TODO move validation to a JSF validator
 	public String next(){
 		
-		if( (profileName==null || profileName.isEmpty()) && (newProfileName==null || newProfileName.isEmpty()) ){
+		if( (profileName==null || profileName.trim().isEmpty()) && (newProfileName==null || newProfileName.trim().isEmpty()) ){
 			return "retry";
 		}
 		//TODO set the Session benchmark/profile and create the backing files if needed
 		faban.setBenchmarkName(benchmarkName);
 		
-		if(newProfileName!=null || !newProfileName.isEmpty()){
+		if(newProfileName!=null && !newProfileName.trim().isEmpty()){
+			System.out.println("PFB setting profile to newProfileName="+newProfileName);
 			faban.setProfileName(newProfileName);
 			
 			ProfileLoader profileLoader = new ProfileLoader();
 			List<String> tagList = Arrays.asList(tagStr.split(" "));
 			Profile newProfile = profileLoader.createProfile(newProfileName,profileName,benchmarkName,tagList);
 
+		}else if ( profileName!=null && !profileName.trim().isEmpty()){
+			System.out.println("PFB setting profile to profileName="+profileName);
+			faban.setProfileName(profileName);
 		}
+		
+		
 		return "next";
 	}
 	public void benchmarkChange(){

@@ -7,7 +7,7 @@
     exclude-result-prefixes="chiba xforms xlink xsl">
 
     <xsl:include href="bootstrap-form-controls.xsl"/>
-    <xsl:output method="xml" encoding="UTF-8" omit-xml-declaration="yes" />
+    <xsl:output method="html" indent="yes" encoding="UTF-8" omit-xml-declaration="yes" />
 
     <xsl:param name="action-url" select="''"/>
     <xsl:param name="form-id" select="'chiba-form'"/>

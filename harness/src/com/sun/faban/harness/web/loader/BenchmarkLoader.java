@@ -25,6 +25,7 @@ public class BenchmarkLoader {
 	public Benchmark getBenchmark(String shortName){
 		Benchmark bench = new Benchmark();
 		
+		System.out.println("BenchmarkLoader.getBenchMark("+shortName+")");
 		File benchDir = new File(DeployUtil.BENCHMARKDIR,shortName);
 		
 		if(!benchDir.isDirectory()){

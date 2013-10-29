@@ -55,7 +55,7 @@
 								<td>
 									<input type="checkbox" id="id" name="" value=""></input>
 								</td>
-								<td>#{rslt.runId}</td>
+								<td><a href="#{contextPath}/results/#{rslt.runId}/info">#{rslt.runId}</a></td>
 								<td>#{rslt.description}</td>
 								<td>
 									<h:panelGroup rendered="#{rslt.result eq 'PASSED'}">

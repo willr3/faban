@@ -19,6 +19,7 @@
 	<body>
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<ui:param name="Qcount" value="${RunQ.count}"></ui:param>
+			<ui:param name="contextPath" value="#{facesContext.externalContext.requestContextPath}"></ui:param>
 			<a class="navbar-brand" href="./">Faban</a>
 			<button type="button" class="btn btn-default navbar-btn  pull-right">Sign in</button>	
 			<p class="navbar-text pull-right">#{BenchmarkDescription.bannerName} #{BenchmarkDescription.bannerVersion}</p>
@@ -27,22 +28,22 @@
 			<nav class="sidebar sidebar-fixed">
 				<ul class="nav nav-pills nav-stacked">
 		 			<li class="#{active == 'newRun' ? 'active' : ''}">
-		 				<a href="new-run.jsf">Schedule Run</a>
+		 				<a href="#{contextPath}/new-run.jsf">Schedule Run</a>
 	 				</li>
 	 				<li class="#{active == 'suspend' ? 'active' : ''}">
-	 					<a href="suspend-runs.jsf">Suspend Pending Runs</a>
+	 					<a href="#{contextPath}/suspend-runs.jsf">Suspend Pending Runs</a>
  					</li>
 	 				<li class="#{active == 'resume' ? 'active' : ''}">
-	 					<a href="resume-runs.jsf">Resume Pending Runs</a>
+	 					<a href="#{contextPath}/resume-runs.jsf">Resume Pending Runs</a>
 					</li>
 	 				<li class="#{active == 'kill' ? 'active' : ''}">
-	 					<a href="kill-run.jsf">Kill Current Run</a>
+	 					<a href="#{contextPath}/kill-run.jsf">Kill Current Run</a>
  					</li>
 	 				<li class="#{active == 'results' ? 'active' : ''}">
-	 					<a href="result-list.jsf">View Results</a>
+	 					<a href="#{contextPath}/results">View Results</a>
  					</li>
 	 				<li class="#{active == 'pending' ? 'active' : ''}">
-	 					<a href="pending-runs.jsf">
+	 					<a href="#{contextPath}/pending-runs.jsf">
 	 						View Pending Runs
 	 						<h:panelGroup rendered="#{Qcount > 0}">
 	 							<ui:fragment>
@@ -52,7 +53,7 @@
  						</a>
  					</li>
 	 				<li class="#{active == 'profile' ? 'active' : ''}">
-	 					<a href="selectprofile.jsf">Switch Profile</a>
+	 					<a href="#{contextPath}/selectprofile.jsf">Switch Profile</a>
  					</li>
 	 				<li class="#{active == 'help' ? 'active' : ''}">
 	 					<a href="#">Help</a>
@@ -63,7 +64,7 @@
 		<div class="col-md-10">
 			<ui:insert name="content" >Content goes here</ui:insert>		
 		</div>
-		<script src="#{facesContext.externalContext.requestContextPath}/scripts/jquery.min.js"></script>
-		<script src="#{facesContext.externalContext.requestContextPath}/scripts/bootstrap.min.js"></script>
+		<script src="#{contextPath}/scripts/jquery.min.js"></script>
+		<script src="#{contextPath}/scripts/bootstrap.min.js"></script>
 	</body>
 </html>

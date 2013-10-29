@@ -18,10 +18,13 @@ public class FabanSessionBean {
 	private String profileName;
 	private String benchmarkName;
 	
-	public FabanSessionBean(){}
+	public FabanSessionBean(){
+		System.out.println("new FabanSessionBean()~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	}
 	
 	public String getProfileName(){return profileName;}
 	public void setProfileName(String profileName){
+		System.out.println("FSB.setProfileName = "+profileName);
 		this.profileName=profileName;
 	}
 	public String getBenchmarkName(){return benchmarkName;}
