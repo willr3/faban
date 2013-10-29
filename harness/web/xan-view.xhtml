@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!-- TODO: load xsl from resource not absolute path -->
+<ui:composition 
+	template="/templates/result-nav.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
+	<ui:define name="viewContent">
+		<ui:param name="runId" value="#{fabanUrlTokens['runId']}"></ui:param>
+		<c:set var="xan" scope="request" value="#{xanbean.getXan(runId)}"/>
+		<ui:param name="activeView" value="details" ></ui:param>
+		<ui:param name="active" value="results" ></ui:param>
+		<h:panelGroup rendered="#{xan == null}">
+			<div class="well">
+			Could not find results for #{runId}
+			</div>
+		</h:panelGroup>
+		<h:panelGroup rendered="#{xan != null}">
+			<ui:repeat value="#{xan.sections}" var="section">
+				#{section}
+			</ui:repeat>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>

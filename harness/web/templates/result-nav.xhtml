@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/bootstrap.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+>
+	<ui:param name="active" value="results" ></ui:param>
+	
+	<ui:define name="content">
+		<ul class="nav nav-pills">
+  		<li class="#{activeView == 'info' ? 'active' : ''}">
+  			<a href="#{contextPath}/results/#{runId}/info">
+  				Run Info
+  			</a>
+ 			</li>
+  		<li class="#{activeView == 'summary' ? 'active' : ''}">
+  			<a href="#{contextPath}/results/#{runId}/summary">
+  				Summary Result
+  			</a>
+ 			</li>
+  		<li class="#{activeView == 'details' ? 'active' : ''}">
+  			<a href="#{contextPath}/results/#{runId}/details">
+  				Detailed Result
+  			</a>
+ 			</li>
+  		<li class="#{activeView == 'config' ? 'active' : ''}">
+  			<a href="#{contextPath}/#{runId}/config">
+  				Run Configuration
+  			</a>
+ 			</li>
+  		<li class="#{activeView == 'log' ? 'active' : ''}">
+  			<a href="#{contextPath}/results/#{runId}/log">
+  				Run Logs
+  			</a>
+ 			</li>
+  		<li class="#{activeView == 'stats' ? 'active' : ''}">
+  			<a href="#{contextPath}/results/#{runId}/stats">
+  				Statistics
+  			</a>
+ 			</li>
+		</ul>
+		<ui:insert name="viewContent" >view content goes here</ui:insert>
+	</ui:define>
+</ui:composition>
