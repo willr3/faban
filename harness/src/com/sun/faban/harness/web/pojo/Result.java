@@ -15,14 +15,14 @@ public class Result implements Serializable{
 	private long modTime = 0;
 	private RunId runId;
 	private String description;
-	private String result;
+	private RunResult result;
 	private String resultLink;
 	private String scaleName;
 	private String scale;
 	private String scaleUnit;
 	private double metric;
 	private String metricUnit;
-	private String status;
+	private RunStatus status;
 	private String logLink;
 	private Date dateTime;
 	private String submitter;
@@ -54,10 +54,10 @@ public class Result implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getResult() {
+	public RunResult getResult() {
 		return result;
 	}
-	public void setResult(String result) {
+	public void setResult(RunResult result) {
 		this.result = result;
 	}
 	public String getResultLink() {
@@ -96,10 +96,10 @@ public class Result implements Serializable{
 	public void setMetricUnit(String metricUnit) {
 		this.metricUnit = metricUnit;
 	}
-	public String getStatus() {
+	public RunStatus getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(RunStatus status) {
 		this.status = status;
 	}
 	public String getLogLink() {

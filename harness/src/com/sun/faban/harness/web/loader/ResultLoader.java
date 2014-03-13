@@ -17,6 +17,7 @@ import com.sun.faban.harness.common.RunId;
 import com.sun.faban.harness.util.FileHelper;
 import com.sun.faban.harness.util.XMLReader;
 import com.sun.faban.harness.web.pojo.Result;
+import com.sun.faban.harness.web.pojo.RunStatus;
 import com.sun.faban.harness.webclient.RunResult;
 
 public class ResultLoader {
@@ -72,7 +73,7 @@ public class ResultLoader {
 		File resultFile = new File(resultDir,resultFilePath);
 		if(resultFile.exists() && resultFile.length()>0){
 			rtrn.setResultFile(resultFile.getPath());
-			rtrn.setResult("PASSED");
+			rtrn.setResult(com.sun.faban.harness.web.pojo.RunResult.PASSED);
 			rtrn.setResultLink("/resultframe.jsp?runId="+rtrn.getRunId()+"&result="+resultFilePath);
 		
 		
@@ -90,18 +91,19 @@ public class ResultLoader {
 	        List<String> passedList = reader.getValues("passed");
 	        for(String passed : passedList){
 	        	if(passed.toUpperCase().indexOf("FALSE") != -1){
-	        		rtrn.setResult("FAILED");
+	        		rtrn.setResult(com.sun.faban.harness.web.pojo.RunResult.FAILED);
 	        		break;
 	        	}
 	        }
 		}
-        rtrn.setStatus(statusFileContent[0]);
-        
+        rtrn.setStatus(RunStatus.valueOf(statusFileContent[0]));
+
+//		not compatible with new RunStatus enum
+//        if(rtrn.getResult()==null){
+//        	rtrn.setResult(rtrn.getStatus());
+//        }
         if(rtrn.getResult()==null){
-        	rtrn.setResult(rtrn.getStatus());
-        }
-        if(rtrn.getResult()==null){
-        	rtrn.setResult("NOT_AVAILABLE");
+        	rtrn.setResult(com.sun.faban.harness.web.pojo.RunResult.NOT_AVAILABLE);
         }
         
         if(!"UNKNOWN".equals(rtrn.getStatus()) || new File(resultDir,"log.xml").isFile()){

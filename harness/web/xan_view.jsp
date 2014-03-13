@@ -48,6 +48,7 @@
     <link rel="stylesheet" type="text/css" href="/css/xanview.css"/>
     <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="/scripts/excanvas.min.js"></script>><![endif]-->
     <script language="javascript" type="text/javascript" src="/scripts/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/scripts/jquery-migrate-1.2.1.min.js"></script>
     <script language="javascript" type="text/javascript" src="/scripts/jquery.jqplot.min.js"></script>
     <script type="text/javascript" src="/scripts/jqplot.cursor.min.js"></script>
     <script type="text/javascript" src="/scripts/jqplot.highlighter.min.js"></script>

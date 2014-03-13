@@ -34,6 +34,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -202,6 +203,10 @@ public class XFormServlet extends HttpServlet {
                 adapter.stylesheet = "faban.xsl";
             }
 
+            System.out.println("XFormServlet.doGet baseURI="+baseURL.toString());
+            System.out.println("XFormServlet.doGet formURI="+formURI);
+            System.out.println("XFormServlet.doGet baseURI="+actionURL);
+            
             adapter.baseURI = baseURL.toString();
             adapter.formURI = formURI;
             adapter.actionURL = actionURL;
@@ -262,6 +267,7 @@ public class XFormServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request,
                           HttpServletResponse response)
             throws ServletException, IOException {
+    	System.out.println("XFormsServlet.doPost");
         HttpSession session = request.getSession(true);
         Adapter adapter = null;
 
@@ -271,6 +277,12 @@ public class XFormServlet extends HttpServlet {
                 throw new ServletException(Config.getInstance().getErrorMessage(
                                            "session-invalid"));
             }
+            
+			System.out.println("xforms.doPost.adapter.baseURI="+adapter.baseURI);
+			System.out.println("xforms.doPost.adapter.formURI="+adapter.formURI);
+			System.out.println("xforms.doPost.adapter.actionURL="+adapter.actionURL);
+            
+            
             adapter.beanCtx.put("chiba.useragent", request.getHeader(
                                  "User-Agent"));
             adapter.beanCtx.put("chiba.web.request", request);
@@ -281,6 +293,7 @@ public class XFormServlet extends HttpServlet {
             // Check for redirects
             String redirectURI = (String) adapter.beanCtx.get(
                                                   ChibaAdapter.LOAD_URI);
+            System.out.println("XFormServlet.redirectURI = "+redirectURI);
             if (redirectURI != null) {
                 String redirectTo = redirectURI;
                 adapter.shutdown();
@@ -292,9 +305,15 @@ public class XFormServlet extends HttpServlet {
             // Check for forwards
             Map forwardMap = (Map) adapter.beanCtx.get(
                                            ChibaAdapter.SUBMISSION_RESPONSE);
+			System.out.println("XFormServlet.forwardMap:");
+			for(Object key : forwardMap.keySet()){
+				System.out.println("  ["+key.toString()+"] -> "+forwardMap.get(key));
+			}
+
             InputStream forwardStream = (InputStream) forwardMap.get(
                         ChibaAdapter.SUBMISSION_RESPONSE_STREAM);
             if (forwardStream != null) {
+            	System.out.println("XFormServlet.forwardStream");
                 adapter.shutdown();
 
                 // fetch response stream
@@ -315,6 +334,8 @@ public class XFormServlet extends HttpServlet {
                 int readLength = responseStream.read(copyBuffer);
                 do {
                     out.write(copyBuffer, 0, readLength);
+					System.out.println("readLength");
+					System.out.println(new String(copyBuffer,"utf8"));
                     readLength = responseStream.read(copyBuffer);
                 } while (readLength >= 0);
 
@@ -423,6 +444,7 @@ public class XFormServlet extends HttpServlet {
                     throw new XFormsException("File " + formURI +
                             " not found.", e);
                 }
+                System.out.println("XFormServlet.init.baseUri=="+baseURI);
                 chibaBean.setBaseURI(baseURI);
             }
 
@@ -509,7 +531,8 @@ public class XFormServlet extends HttpServlet {
             } else {
                 trigger = processUrlencodedRequest(request, trigger);
             }
-
+            
+            System.out.println("XFormServlet.execute trigger="+trigger);
             // finally activate trigger if any
             if (trigger != null) {
                 if (logger.isLoggable(Level.FINE)) {
@@ -706,6 +729,7 @@ public class XFormServlet extends HttpServlet {
                         logger.fine(this + " value: " + values[i]);
                     }
                 }
+                System.out.println("XFormServlet.urlParam["+paramName+"] -> "+Arrays.asList(values));
                 
                 handleData(paramName, values);
                 handleSelector(paramName, values[0]);

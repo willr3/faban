@@ -62,9 +62,11 @@
 			</nav>
 		</div>
 		<div class="col-md-10">
+			<ui:include src="/templates/messages.xhtml"></ui:include>
 			<ui:insert name="content" >Content goes here</ui:insert>		
 		</div>
 		<script src="#{contextPath}/scripts/jquery.min.js"></script>
 		<script src="#{contextPath}/scripts/bootstrap.min.js"></script>
+		<ui:insert name="scripts"></ui:insert>
 	</body>
 </html>

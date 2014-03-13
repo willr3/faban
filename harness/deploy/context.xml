@@ -5,4 +5,6 @@
     $Id: context.xml,v 1.1 2006/06/29 18:51:39 akara Exp $
 
 -->
-<Context path="" docBase="faban" debug="0"/>
+<Context path="/" docBase="" debug="0" crossContext="true">
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+</Context>

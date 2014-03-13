@@ -44,15 +44,19 @@
 <body>
 <br/><br/><br/>
 <%
+
+		System.out.println("ScheduleRun.jsp~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     Logger logger = Logger.getLogger(this.getClass().getName());
     Reader reader = request.getReader();
     int size = request.getContentLength();
     char[] buf = new char[size];
     logger.finer("Length of buffer created is " + size);
     int len = 0;
-    while(len < size)
+    while(len < size){
         len += reader.read(buf, len, size - len);
-
+    }
+		System.out.println("read buf");
+		System.out.println(new String(buf));
     logger.finer("Length of buffer read is " + len);
     String profile = (String)session.getAttribute("faban.profile");
     BenchmarkDescription benchmark = (BenchmarkDescription)session.getAttribute(

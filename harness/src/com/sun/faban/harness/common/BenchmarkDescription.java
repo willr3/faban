@@ -23,16 +23,6 @@
  */
 package com.sun.faban.harness.common;
 
-import com.sun.faban.harness.util.DeployUtil;
-
-import org.w3c.dom.Node;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -41,6 +31,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Node;
+
+import com.sun.faban.harness.util.DeployUtil;
+import com.sun.faban.harness.web.pojo.Benchmark;
 
 /**
  * This is a value class describing the benchmark.
@@ -254,6 +255,28 @@ public class BenchmarkDescription implements Serializable {
                     "descriptor for " + dir, e);
         }
         return desc;
+    }
+    
+    /**
+     * Simple conversion method because BenchmarkDescription constructor is not accessible
+     * @param benchmark
+     * @return
+     */
+    public static BenchmarkDescription toDescription(Benchmark benchmark){
+    	BenchmarkDescription rtrn = new BenchmarkDescription();
+    	rtrn.bannerPage = benchmark.getBannerPage();
+    	rtrn.benchmarkClass = benchmark.getBenchmarkClass();
+    	rtrn.configFileName = benchmark.getConfigFileName();
+    	rtrn.configForm = benchmark.getConfigForm();
+    	rtrn.configStylesheet = benchmark.getConfigStylesheet();
+    	rtrn.metric = benchmark.getMetric();
+    	rtrn.name = benchmark.getName();
+    	rtrn.resultFilePath = benchmark.getResultFilePath();
+    	rtrn.scaleName = benchmark.getScaleName();
+    	rtrn.scaleUnit = benchmark.getScaleUnit();
+    	rtrn.shortName = benchmark.getShortName();
+    	
+    	return rtrn;
     }
 
    /**

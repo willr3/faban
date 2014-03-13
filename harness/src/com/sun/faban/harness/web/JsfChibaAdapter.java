@@ -53,51 +53,46 @@ public class JsfChibaAdapter extends AbstractChibaAdapter implements Interaction
 	private String removeUploadPrefix;
 	private String uploadRoot;
 	
+	private boolean isShutdown;
 	
 	public JsfChibaAdapter(){
 		chibaBean = createProcessor();
 		beanCtx = new HashMap();
 		chibaBean.setContext(beanCtx);
+		isShutdown=false;
 	}
-	
 	
 	@Override
 	public void init(){
-		if(formUri != null){
+		if(getFormUri() != null){
 			try{
-				if(formUri.startsWith(com.sun.faban.harness.common.Config.FABAN_HOME)){
+				if(getFormUri().startsWith(com.sun.faban.harness.common.Config.FABAN_HOME)){
 					FileInputStream stream = new FileInputStream(formUri);
 					setXForms(stream);
 				}else{
-					setXForms(new URI(formUri));
+					setXForms(new URI(getFormUri()));
 				}
 			}catch(URISyntaxException e){
-				logger.log(Level.WARNING,"Form URI not well formed ["+formUri+"]",e);
+				logger.log(Level.WARNING,"Form URI not well formed ["+getFormUri()+"]",e);
 			}catch(FileNotFoundException e){
-				logger.log(Level.WARNING,"Form URI file not found ["+formUri+"]",e);
+				logger.log(Level.WARNING,"Form URI file not found ["+getFormUri()+"]",e);
 			} catch (XFormsException e) {
-				logger.log(Level.WARNING,"Failed to setXForm="+formUri,e);
+				logger.log(Level.WARNING,"Failed to setXForm="+getFormUri(),e);
 				e.printStackTrace();
 			}
-			
-			chibaBean.setBaseURI(baseURI);
+			chibaBean.setBaseURI(getBaseUri());
 			
 		}
 		
 		
 		if(logger.isLoggable(Level.FINER)){
 			logger.finer(toString());
-			logger.finer("formUri="+formUri);
-			logger.finer("cssFile="+cssFile);
-			logger.finer("stylesheet="+stylesheet);
-			logger.finer("actionUrl="+actionUrl);
+			logger.finer("formUri="+getFormUri());
+			logger.finer("cssFile="+getCssFile());
+			logger.finer("stylesheet="+getStylesheet());
+			logger.finer("actionUrl="+getActionUrl());
 		}
 		
-        System.out.println("JsfChibaAdapter.toString()="+toString());
-        System.out.println("JsfChibaAdapter.formUri="+formUri);
-        System.out.println("JsfChibaAdapter.CSS-File="+cssFile);
-        System.out.println("JsfChibaAdapter.XSLT stylesheet: "+stylesheet);
-        System.out.println("JsfChibaAdapter.actionURL="+actionUrl);
         
         
         try {
@@ -169,11 +164,13 @@ public class JsfChibaAdapter extends AbstractChibaAdapter implements Interaction
 		
 	}
 	
+	public boolean isShutdown(){return isShutdown;}
 	@Override
 	public void	shutdown(){
 		if(chibaBean != null){
 			try {
 				chibaBean.shutdown();
+				isShutdown=true;
 			} catch (XFormsException e) {
 				logger.log(Level.WARNING,"Failed to shutdown chibaBean",e);
 			}
@@ -182,9 +179,9 @@ public class JsfChibaAdapter extends AbstractChibaAdapter implements Interaction
 	
 	
 	//InteractionHandler
-	//can throw XForm in interface handle
+	//can throw XFormsException in chibaBean.dispatch
 	@Override
-	public void execute(){
+	public void execute() throws XFormsException{
 		HttpServletRequest request = (HttpServletRequest) beanCtx.get("chiba.web.request");
 		
 		String contextRoot = request.getSession().getServletContext().getRealPath("");
@@ -210,16 +207,12 @@ public class JsfChibaAdapter extends AbstractChibaAdapter implements Interaction
 		}else{
 			trigger = processUrlencodedRequest(request, trigger);
 		}
-		
+
 		if(trigger != null){
 			
 			logger.fine("trigger="+trigger);
-			try {
-				chibaBean.dispatch(trigger, EventFactory.DOM_ACTIVATE);
-			} catch (XFormsException e) {
-
-				e.printStackTrace();
-			}
+			
+			chibaBean.dispatch(trigger, EventFactory.DOM_ACTIVATE);
 		}
 	}
 
@@ -276,7 +269,6 @@ public class JsfChibaAdapter extends AbstractChibaAdapter implements Interaction
                 	if(fieldName.startsWith(removeUploadPrefix)){
                 		id = fieldName.substring(removeUploadPrefix.length());
                 		try {
-                			System.out.println("JsfChibaAdapter.chibaBean.updateControlValue("+id+" ,'','',null)");
 							chibaBean.updateControlValue(id, "","",null);
 						} catch (XFormsException e) {
 							logger.log(Level.WARNING,"Failed to remove form file field with id = "+id,e);
@@ -332,7 +324,6 @@ public class JsfChibaAdapter extends AbstractChibaAdapter implements Interaction
                 		}
             				
                 		try {
-                			System.out.println("JsfChibaAdapter.chibaBean.updateControlValue("+id+" , "+item.getContentType()+" , "+itemName+" , "+data.length);
 							chibaBean.updateControlValue(id, item.getContentType(), itemName, data);
 						} catch (XFormsException e) {
 							logger.log(Level.WARNING,"Failed to update id="+id+" name="+itemName,e);
@@ -361,6 +352,7 @@ public class JsfChibaAdapter extends AbstractChibaAdapter implements Interaction
 	}
 	
 	private String processUrlencodedRequest(HttpServletRequest request,String trigger){
+
 		Map paramMap = request.getParameterMap();
 		for(Iterator entries = paramMap.entrySet().iterator(); entries.hasNext();){
 			Map.Entry entry = (Map.Entry)entries.next();
@@ -373,6 +365,7 @@ public class JsfChibaAdapter extends AbstractChibaAdapter implements Interaction
 					builder.append(values[i]+", ");
 				}
 				logger.fine(this+" param.name="+paramName+" value=["+builder.toString()+"]");
+
 			}
 			
 			handleData(paramName,values);
@@ -401,7 +394,7 @@ public class JsfChibaAdapter extends AbstractChibaAdapter implements Interaction
 		if(cssFile != null){
 			generator.setParameter("css-file", cssFile);
 		}
-		System.out.println("Generator data-prefix="+dataPrefix+" trigger-prefix="+triggerPrefix+" user-agent="+userAgent);
+		
 		if(logger.isLoggable(Level.FINE)){
 			logger.fine(">>> setting UI generator params...");
 			logger.fine("data-prefix="+dataPrefix);
@@ -442,7 +435,7 @@ public class JsfChibaAdapter extends AbstractChibaAdapter implements Interaction
 			}
 			try{
 				
-				System.out.println("JsfChibaAdapter.chibaBean.updateControlValue("+id+" , "+newValue+")");
+				
 				
 				chibaBean.updateControlValue(id, newValue);
 			}catch(XFormsException e){
@@ -518,7 +511,9 @@ public class JsfChibaAdapter extends AbstractChibaAdapter implements Interaction
 	}
 
 	public void setBaseUri(String baseUri) {
+		
 		BaseUri = baseUri;
+		
 	}
 
 	public String getFormUri() {

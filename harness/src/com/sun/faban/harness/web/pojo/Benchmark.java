@@ -1,5 +1,7 @@
 package com.sun.faban.harness.web.pojo;
 
+import com.sun.faban.harness.common.BenchmarkDescription;
+
 public class Benchmark {
 
 	private String bannerPage;
@@ -112,6 +114,4 @@ public class Benchmark {
 	public void setScaleUnit(String scaleUnit) {
 		this.scaleUnit = scaleUnit;
 	}
-	
-	
 }

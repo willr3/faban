@@ -58,43 +58,37 @@
 								<td><a href="#{contextPath}/results/#{rslt.runId}/info">#{rslt.runId}</a></td>
 								<td>#{rslt.description}</td>
 								<td>
-									<h:panelGroup rendered="#{rslt.result eq 'PASSED'}">
+									<h:panelGroup rendered="#{rslt.status eq 'COMPLETED' and rslt.result eq 'PASSED'}">
 										<span class="text-success">
 											<i class="icon-ok "></i>
 											passed
 										</span>
 									</h:panelGroup>
-									<h:panelGroup rendered="#{rslt.result eq 'FAILED'}">
+									<h:panelGroup rendered="#{rslt.status eq 'COMPLETED' and rslt.result eq 'FAILED'}">
 										<span class="text-danger">
 											<i class="icon-thumbs-down"></i>
 											failed
 										</span>
 									</h:panelGroup>
-									<h:panelGroup rendered="#{rslt.result eq 'KILLED'}">
+									<h:panelGroup rendered="#{rslt.status eq 'KILLED'}">
 										<span class="text-danger">
 											<i class="icon-stop"> </i>
 											killed
 										</span>
 									</h:panelGroup>
-									<h:panelGroup rendered="#{rslt.result eq 'RECEIVED'}">
+									<h:panelGroup rendered="#{rslt.status == 'RECEIVED'}">
 										<span class="text-primary">
 											<i class="icon-envelope label label-primary"> </i>
 											received
 										</span>
 									</h:panelGroup>
-									<h:panelGroup rendered="#{rslt.result eq 'STARTED'}">
+									<h:panelGroup rendered="#{rslt.status == 'STARTED'}">
 										<span class="text-info">
 											<i class="icon-play"> </i>
 											started
 										</span>
 									</h:panelGroup>
-									<h:panelGroup rendered="#{rslt.result eq 'COMPLETED'}">
-										<span class="text-danger">
-											<i class="icon-thumbs-down"> </i>
-											complete
-										</span>
-									</h:panelGroup>
-									<h:panelGroup rendered="#{rslt.result eq 'UNKNOWN'}">
+									<h:panelGroup rendered="#{rslt.status eq 'UNKNOWN'}">
 										<span class="text-muted">
 											<i class="icon-question"> </i>
 											unknown

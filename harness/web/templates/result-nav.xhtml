@@ -7,6 +7,7 @@
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
 >
 	<ui:param name="active" value="results" ></ui:param>
+	<ui:param name="runId" value="#{fabanUrlTokens['runId']}"></ui:param>
 	
 	<ui:define name="content">
 		<ul class="nav nav-pills">
@@ -26,7 +27,7 @@
   			</a>
  			</li>
   		<li class="#{activeView == 'config' ? 'active' : ''}">
-  			<a href="#{contextPath}/#{runId}/config">
+  			<a href="#{contextPath}/results/#{runId}/config">
   				Run Configuration
   			</a>
  			</li>

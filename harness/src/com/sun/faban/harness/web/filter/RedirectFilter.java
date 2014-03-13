@@ -37,7 +37,11 @@ public class RedirectFilter implements Filter{
 		paths.addPath(UrlToken.parsePath("results/{runId}/log"), "/run-log.jsf");
 		paths.addPath(UrlToken.parsePath("results/{runId}/summary"), "/run-summary.jsf");
 		paths.addPath(UrlToken.parsePath("results/{runId}/details"), "/xan-view.jsf");
+		paths.addPath(UrlToken.parsePath("results/{runId}/config"), "/run-config.jsf");
 		paths.addPath(UrlToken.parsePath("results"), "/result-list.jsf");
+		//TODO this is not intercepting the workflow from Chiba, so must change config.xhtml submission target :(
+		//paths.addPath(UrlToken.parsePath("/schedule-run.jsp"), "/schedule-run.jsf");
+		//paths.addPath(UrlToken.parsePath("schedule-run.jsp"), "/schedule-run.jsf");
 		
 		paths.print();
 	}

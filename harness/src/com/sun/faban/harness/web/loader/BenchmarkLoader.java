@@ -23,6 +23,9 @@ public class BenchmarkLoader {
 	private static Logger logger = Logger.getLogger(BenchmarkLoader.class.getName());
 	
 	public Benchmark getBenchmark(String shortName){
+		if(shortName==null || shortName.trim().isEmpty()){
+			return null;
+		}
 		Benchmark bench = new Benchmark();
 		
 		System.out.println("BenchmarkLoader.getBenchMark("+shortName+")");

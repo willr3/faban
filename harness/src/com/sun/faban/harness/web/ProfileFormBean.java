@@ -76,9 +76,13 @@ public class ProfileFormBean {
 		}
 		
 		//if only 1 benchmark set benchmarkName
-		benchmarkName=benchProfiles.keySet().iterator().next();
+		if(benchProfiles.size()>0){
+			benchmarkName=benchProfiles.keySet().iterator().next();
+		}else{
+			benchmarkName=null;
+		}
 		List<Profile> p = benchProfiles.get(benchmarkName);
-		if(p.size()>0){
+		if(p!=null && p.size()>0){
 			profileName=p.get(0).getName();
 		}
 		if(profileName!=null && !profileName.isEmpty()){

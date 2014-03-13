@@ -7,7 +7,11 @@
 	<application>
   	<el-resolver>com.sun.faban.harness.web.StaticResolver</el-resolver>
 	</application>
-	
+	<!--  
+	<lifecycle>
+		<phase-listener>com.sun.faban.harness.web.listener.SharedMessageListener</phase-listener>
+	</lifecycle>
+	-->
 	<navigation-rule>
 		<from-view-id>/selectprofile.xhtml</from-view-id>
 		<navigation-case>

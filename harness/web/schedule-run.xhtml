@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <ui:composition template="/templates/bootstrap.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -6,10 +7,24 @@
     xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 >
+
+	<f:metadata>
+  	  <f:event type="preRenderView" listener="#{schedule.scheduleRun()}" />
+	</f:metadata>
 	<ui:param name="active" value="newRun" />
 	<ui:define name="content">
-
-		
-
+		<h:panelGroup rendered="#{schedule.runId eq null or schedule.runId eq 'error'}">
+			<div class="well well-lg">
+				<p>Failed to schedule run</p>
+			</div>		
+		</h:panelGroup>
+		<h:panelGroup rendered="#{schedule.runId ne null and schedule.runId ne 'error'}">
+			<div class="well well-lg">
+				<h3>Run scheduled</h3>
+				<p>Run ID for this run is :
+					<a href="#{contextPath}/results/#{schedule.runId}">#{schedule.runId}</a>
+				</p>
+			</div>
+		</h:panelGroup>
 	</ui:define>
 </ui:composition>

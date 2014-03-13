@@ -36,9 +36,7 @@
 	-moz-border-radius: 4px 0 4px 0;
 	border-radius: 4px 0 4px 0;
 }
-
 	</style>
-		<ui:param name="formHtml" value="#{chiba.updateForm()}"></ui:param>
-		<h:outputText value="#{formHtml}" escape="false"></h:outputText>
+		<h:outputText value="#{chiba.rendered}" escape="false" ></h:outputText>
 	</ui:define>
 </ui:composition>

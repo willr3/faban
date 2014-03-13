@@ -8,22 +8,138 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
 >
+
+	<ui:param name="runId" value="#{fabanUrlTokens['runId']}"></ui:param>
+	<ui:param name="activeView" value="details" ></ui:param>
+	<ui:param name="active" value="results" ></ui:param>
+
+
 	<ui:define name="viewContent">
-		<ui:param name="runId" value="#{fabanUrlTokens['runId']}"></ui:param>
-		<c:set var="xan" scope="request" value="#{xanbean.getXan(runId)}"/>
-		<ui:param name="activeView" value="details" ></ui:param>
-		<ui:param name="active" value="results" ></ui:param>
-		<h:panelGroup rendered="#{xan == null}">
+		<h:panelGroup rendered="#{xanbean.xan == null}">
 			<div class="well">
 			Could not find results for #{runId}
 			</div>
 		</h:panelGroup>
-		<h:panelGroup rendered="#{xan != null}">
-			<ui:repeat value="#{xan.sections}" var="section">
-				#{section}
+		<h:panelGroup rendered="#{xanbean.xan != null}">
+			<div class="page-header">
+				<h1>#{xanbean.xan.title}</h1>
+			</div>
+			<h2 id="">Contents</h2>
+			<ul>
+				<ui:repeat value="#{xanbean.xan.sections}" var="section" varStatus="varStatus">
+					<li><a name="#{varStatus.index}" href="##{varStatus.index}">#{section.name}</a></li>
+					
+				</ui:repeat>
+			</ul>
+			<ui:repeat value="#{xanbean.xan.sections}" var="section" varStatus="varStatus">
+					<h:panelGroup rendered="#{section.link == null}">
+						<h2><a name="#{varStatus.index}" id="#{varStatus.index}">#{section.name}</a></h2>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{section.link != null}">
+						<h2><a name="#{varStatus.index}" href="#{section.link}">#{section.name}</a></h2>
+					</h:panelGroup>
+			
+				<h:panelGroup rendered="#{section.display.equalsIgnoreCase('line')}">
+					<div id="graph#{varStatus.index}" style="width:600px;height:300px;position:relative;">
+					</div>					 
+				</h:panelGroup>
+				<h:panelGroup rendered="#{!section.display.equalsIgnoreCase('line')}">
+					<table class="table table-striped table-bordered table-condensed">
+						<thead>
+							<tr>
+								<ui:repeat value="#{section.headers}" var="sectionHead" varStatus="headStatus">
+									<th>#{sectionHead}</th>
+								</ui:repeat>
+							</tr>
+						</thead>
+						<tbody>
+							<ui:repeat value="#{section.rows}" var="row">
+								<tr>
+									<ui:repeat value="#{row}" var="rowEntry">
+										<td>#{rowEntry}</td>
+									</ui:repeat>
+								</tr>
+							</ui:repeat>
+						</tbody>
+					</table>
+				</h:panelGroup>
 			</ui:repeat>
 		</h:panelGroup>
+
+	</ui:define>
+	<ui:define name="scripts">
+    <script type="text/javascript" src="/scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="/scripts/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="/scripts/jquery.jqplot.min.js"></script>
+    <script type="text/javascript" src="/scripts/jqplot.cursor.min.js"></script>
+    <script type="text/javascript" src="/scripts/jqplot.highlighter.min.js"></script>
+    <script type="text/javascript" src="/scripts/jqplot.canvasTextRenderer.min.js"></script>
+    <script type="text/javascript" src="/scripts/jqplot.canvasAxisLabelRenderer.min.js"></script>
+
+    <script type="text/javascript" src="/scripts/jqplot.dateAxisRenderer.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/jquery.jqplot.css" />
+		
+		<script id="source" language="javascript" type="text/javascript">
+			$(function(){
+					<ui:repeat value="#{xanbean.xan.sections}" var="section" varStatus="sectionStatus">
+						<h:panelGroup rendered="#{section.display.equalsIgnoreCase('line')}">
+							var seriesLabels = [];
+							<ui:repeat value="#{section.headers}" var="colHeader" varStatus="headerStatus">
+								seriesLabels.push({ 
+									label: "#{colHeader}",
+									markerOptions: {show:false}
+								});
+							</ui:repeat>
+							
+							<ui:repeat value="#{section.json}" var="json" varStatus="jsonStatus">
+								var data#{sectionStatus.index}#{jsonStatus.index+1} = #{json};
+							</ui:repeat>
+							
+							var xlabel#{sectionStatus.index} = "#{section.headers.get(0)}";
+							var dataset = [#{section.dataName}];
+							var minx = #{section.min};
+							var maxx = #{section.max};
+							$.jqplot("graph#{sectionStatus.index}",dataset, {
+								title: "#{section.name}",
+								axesDefaults: {
+									labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+								},
+								seriesDefaults: {
+									lineWidth: 1.75,
+									location: 'e',
+									placement: 'outside',
+									rendererOptions: {
+										smooth: true
+									}
+								},
+								series: seriesLabels,
+								axes: {
+									xaxis: {
+										label: xlabel#{sectionStatus.index},
+										<h:panelGroup rendered="#{section.XIsTime}==1">
+											rendered: $.jqplot.DateAxisRenderer,
+											tickOptions: {formatString:'%T'},
+											min: minx,
+											max: maxx,
+											pad: 1.3
+										</h:panelGroup>
+									}
+								},
+								cursor: {
+									show: true,
+									showTooltip: true,
+									followMouse: true,
+									zoom: true
+								},
+								legend: {
+									show: true
+								}
+							})
+						</h:panelGroup>
+					</ui:repeat>
+					
+				})
+		</script>
 	</ui:define>
 </ui:composition>

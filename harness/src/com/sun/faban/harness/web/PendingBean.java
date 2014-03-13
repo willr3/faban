@@ -1,7 +1,10 @@
 package com.sun.faban.harness.web;
 
+import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -10,15 +13,12 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
 import com.sun.faban.harness.engine.RunQ;
 
 @ManagedBean(name="pending")
 @ViewScoped
 public class PendingBean {
 	static Logger logger = Logger.getLogger(PendingBean.class.getName());
-	
 	
 	//maps to suspend-runs.jsp
 	public String suspend(){
@@ -33,10 +33,8 @@ public class PendingBean {
 		if(isNewRequest()){
 			RunQ.getHandle().startRunDaemon();
 		}
-		
 		return "ok";
 	}
-	
 	//maps to delete-runs.jsp
 	public String remove(){
 		FacesContext context = FacesContext.getCurrentInstance();

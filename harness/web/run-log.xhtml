@@ -8,23 +8,27 @@
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 >
+	<f:metadata>
+  	  <f:event type="preRenderView" listener="#{logReader.loadHtml()}" />
+	</f:metadata>
+	
 	<ui:param name="runId" value="#{fabanUrlTokens['runId']}"></ui:param>
-	<ui:param name="result" value="#{resultinfo.getResult(runId)}"></ui:param>
 	<ui:param name="active" value="results" ></ui:param>
 	<ui:param name="activeView" value="log" ></ui:param>
 	<ui:define name="viewContent">
-		<div class="page-header">
-			<h1><small>#{runId}</small></h1>
-		</div>
-		<h:panelGroup rendered="#{result == null}">
-			<div class="well">
-			Could not find results for #{runId}
-			</div>
-		</h:panelGroup>
-		<h:panelGroup rendered="#{result != null}">
-			<ui:param name="summaryReport" value="#{xslt.getTransform(Config.OUT_DIR.concat('/').concat(runId).concat('/log.xml'),'/home/wreicher/code/github/faban/stage/master/webapps/ROOT/xslt/summary_report.xsl')}"></ui:param>
-			<h:outputText value="#{summaryReport}" escape="false"></h:outputText>
-
-		</h:panelGroup>
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<ui:param name="colHdrs" value="Time,Host,Level,Message"></ui:param>
+					<ui:repeat value="#{fn:split(colHdrs,',')}" var="hdr" varStatus="hdrStatus">
+						<th>#{hdr}</th>
+					</ui:repeat>
+				</tr>
+			</thead>
+			<tbody>
+				<h:outputText value="#{logReader.html}" escape="false"></h:outputText>		
+			</tbody>			
+		</table>
+		
 	</ui:define>
 </ui:composition>

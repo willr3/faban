@@ -25,7 +25,7 @@ import com.sun.faban.harness.common.RunId;
 import com.sun.faban.harness.util.FileHelper;
 import com.sun.faban.harness.util.XMLReader;
 import com.sun.faban.harness.web.pojo.Result;
-import com.sun.faban.harness.webclient.Results;
+import com.sun.faban.harness.web.pojo.RunStatus;
 import com.sun.faban.harness.webclient.RunResult;
 
 @ManagedBean(name="resultbean")
@@ -138,7 +138,8 @@ public class ResulListBean implements Serializable{
 			}else{
 				String runIdS = runDir.getName();
 				try{
-					//TODO check isViewAllowed
+					//TODO need to skip the analysis dir
+					//TODO check isViewAllowed by adding security
 					RunId runId = new RunId(runIdS);
 					
 					//this will probably thrash a bit :)
@@ -201,7 +202,7 @@ public class ResulListBean implements Serializable{
 		String[] statusFileContent = RunResult.readStatus(runId.toString());
 		File resultFile = new File(resultDir,"summary.xml");
 		if(resultFile.exists() && resultFile.length()>0){
-			rtrn.setResult("PASSED");
+			rtrn.setResult(com.sun.faban.harness.web.pojo.RunResult.PASSED);
 			rtrn.setResultLink("/resultframe.jsp?runId="+rtrn.getRunId()+"&result="+resultFilePath);
 		
 		
@@ -219,18 +220,19 @@ public class ResulListBean implements Serializable{
 	        List<String> passedList = reader.getValues("passed");
 	        for(String passed : passedList){
 	        	if(passed.toUpperCase().indexOf("FALSE") != -1){
-	        		rtrn.setResult("FAILED");
+	        		rtrn.setResult(com.sun.faban.harness.web.pojo.RunResult.FAILED);
 	        		break;
 	        	}
 	        }
 		}
-        rtrn.setStatus(statusFileContent[0]);
-        
+        rtrn.setStatus(RunStatus.valueOf(statusFileContent[0]));
+
+//		no longer supported because of change to enum
+//        if(rtrn.getResult()==null){
+//        	rtrn.setResult(rtrn.getStatus());
+//        }
         if(rtrn.getResult()==null){
-        	rtrn.setResult(rtrn.getStatus());
-        }
-        if(rtrn.getResult()==null){
-        	rtrn.setResult("NOT_AVAILABLE");
+        	rtrn.setResult(com.sun.faban.harness.web.pojo.RunResult.NOT_AVAILABLE);
         }
         
         if(!"UNKNOWN".equals(rtrn.getStatus()) || new File(resultDir,"log.xml").isFile()){

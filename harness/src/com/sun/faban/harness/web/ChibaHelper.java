@@ -3,9 +3,9 @@ package com.sun.faban.harness.web;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpSession;
 
 import org.chiba.adapter.ChibaAdapter;
 import org.chiba.xml.xforms.config.Config;
+import org.chiba.xml.xforms.exception.XFormsException;
 
 import com.sun.faban.harness.web.loader.BenchmarkLoader;
 import com.sun.faban.harness.web.pojo.Benchmark;
@@ -35,6 +37,7 @@ import com.sun.faban.harness.web.pojo.Benchmark;
 @SessionScoped
 @SuppressWarnings({ "rawtypes", "unchecked" })
 
+//maps to XFormServlet.java
 public class ChibaHelper {
 	
 	@ManagedProperty(value="#{faban}")
@@ -51,22 +54,62 @@ public class ChibaHelper {
 	public ChibaHelper(){}
 	
 	
+	private String rendered=null;
+	
+	public String getRendered(){return rendered;}
+	public void setRendered(String val){rendered=val;}
+	
 	public void validate(){
 		
 		if(faban.getBenchmarkName()==null || faban.getBenchmarkName().isEmpty() || faban.getProfileName()==null || faban.getProfileName().isEmpty()){
 			FacesContext context = FacesContext.getCurrentInstance();
 			try {
-				System.out.println(" redirecting to selectprofile because missing profile or benchmark");
+				
 				context.getExternalContext().redirect(context.getExternalContext().getRequestContextPath()+"/selectprofile.jsf");
+				return;
 			} catch (IOException e) {
+				
 				logger.log(Level.WARNING, "Failed to redirec to selectprofile.jsf when missing benchmark or profile selection",e);
 				e.printStackTrace();
+			}
+		}else{
+			FacesContext context = FacesContext.getCurrentInstance();
+			HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();
+			
+			if("POST".equals(request.getMethod())){
+				HttpSession session = request.getSession(false);
+				//TODO change JsfChibaAdapter to a ChibaHelper local variable
+				JsfChibaAdapter adapter = (JsfChibaAdapter) session.getAttribute("chiba.jsfAdapter");
+				if(adapter.isShutdown()){
+					
+					try {
+						
+			        	FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Error","Please select a profile for new run");
+			        	context.addMessage(null, msg);
+			        	
+			        	System.out.println("PreRedirect message count = "+context.getMessageList().size());
+			        	System.out.println("PreRedirect message count = "+context.getMessageList(null).size());
+						context.getExternalContext().redirect(context.getExternalContext().getRequestContextPath()+"/selectprofile.jsf");
+						return;
+					} catch (IOException e) {
+						logger.log(Level.WARNING, "Failed to redirec to selectprofile.jsf when missing benchmark or profile selection",e);
+					}
+				}
+			}
+			
+			
+			
+			try{
+			rendered = updateForm();
+			}catch(IOException e){
+				rendered = "<pre>"+e.getMessage()+"<br/>"+Arrays.asList(e.getStackTrace()).toString().replaceAll("", "<br/>")+"</pre>";
 			}
 		}
 	}
 	
 	@PostConstruct
 	public void postConstruct(){
+		
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext ext = context.getExternalContext();
 		HttpServletRequest request = (HttpServletRequest)ext.getRequest();
@@ -94,34 +137,47 @@ public class ChibaHelper {
 	}
 	public FabanSessionBean getFaban(){return faban;}
 	public void setFaban(FabanSessionBean faban){
+		
 		this.faban = faban;
 	}
 	
 	public String updateForm() throws IOException{
-		System.out.println("ChibaHelper.updateForm()");
+		
+		
+		String rtrn = null;
 		
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();
 		HttpServletResponse response = (HttpServletResponse)context.getExternalContext().getResponse();
 
 		String requestMethod = request.getMethod();
-		System.out.println("  request.method == "+requestMethod);
+		
 		if("POST".equals(requestMethod)){
-			return this.doPost();
+			rtrn = this.doPost();
 		}else if ("GET".equals(requestMethod)){
-			return this.doGet();
+			rtrn = this.doGet();
 		}else{
-			System.out.println("  Above request method should not happen :(");
-			return "<pre>Unknown Request method "+requestMethod+"</pre>";
+			
+			rtrn = "<pre>Unknown Request method "+requestMethod+"</pre>";
 		}
 		
+		
+		return rtrn;
 	}
 	
 	public String doPost(){
-		System.out.println("doPost()");
+		
+		
+		
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();
 		HttpServletResponse response = (HttpServletResponse)context.getExternalContext().getResponse();
+
+		Enumeration names = request.getParameterNames();
+		
+				
+		
+		
 		
 		HttpSession session = request.getSession(false);
 		JsfChibaAdapter adapter = null;
@@ -132,12 +188,23 @@ public class ChibaHelper {
 				logger.warning("Failed to find Adapter for session="+session.getId());
 				throw new ServletException(Config.getInstance().getErrorMessage("session-invalid"));
 			}
+			
+			
+			
 			adapter.getBeanCtx().put("chiba.useragent", request.getHeader("User-Agent"));
 			adapter.getBeanCtx().put("chiba.web.request",request);
 			adapter.getBeanCtx().put("chiba.web.session", session);
-			adapter.execute();
+			try{
+				adapter.execute();
+			}catch(XFormsException e){
+				
+
+				return "<pre>"+e.getMessage()+"<br/>"+Arrays.asList(e.getStackTrace()).toString().replaceAll(",", "<br/>")+"</pre>";
+				//return doGet();
+			}
 			
 			String redirectURI = (String) adapter.getBeanCtx().get(ChibaAdapter.LOAD_URI);
+			
 			if(redirectURI != null){
 				String redirectTo = redirectURI;
 				adapter.shutdown();
@@ -149,33 +216,61 @@ public class ChibaHelper {
 		
 			//Check for forwards
 			Map forwardMap = (Map) adapter.getBeanCtx().get(ChibaAdapter.SUBMISSION_RESPONSE);
-			InputStream forwardStream = (InputStream) forwardMap.get(ChibaAdapter.SUBMISSION_RESPONSE_STREAM);
-			if(forwardStream !=null ){
-				System.out.println("  forwardStream != null");
-				adapter.shutdown();
-				//fetch response stream
-				InputStream responseStream = (InputStream) forwardMap.remove(ChibaAdapter.SUBMISSION_RESPONSE_STREAM);
-				//copy header info
-				Iterator iterator = forwardMap.keySet().iterator();
-				while(iterator.hasNext()){
-					String name = iterator.next().toString();
-					String value = forwardMap.get(name).toString();
-					response.setHeader(name, value);
-				}
-				//copy stream content
-				byte[] copyBuffer = new byte[8092];
-				OutputStream out = response.getOutputStream();
-				int readLength = responseStream.read(copyBuffer);
-				do{
-					out.write(copyBuffer, 0 , readLength);
-					readLength = responseStream.read(copyBuffer);
-				}while (readLength>=0);
-				responseStream.close();
-				out.close();
-				adapter.getBeanCtx().put(ChibaAdapter.SUBMISSION_RESPONSE, null);
-				return "stream";
+			
+			if(forwardMap!=null){
+				
+				
+
+				
+				InputStream forwardStream = (InputStream) forwardMap.get(ChibaAdapter.SUBMISSION_RESPONSE_STREAM);
+				if(forwardStream !=null ){
+					
+					adapter.shutdown();
+					//fetch response stream
+					InputStream responseStream = (InputStream) forwardMap.remove(ChibaAdapter.SUBMISSION_RESPONSE_STREAM);
+					//copy header info
+					Iterator iterator = forwardMap.keySet().iterator();
+					while(iterator.hasNext()){
+						String name = iterator.next().toString();
+						String value = forwardMap.get(name).toString();
+						response.setHeader(name, value);
+					}
+					//copy stream content
+					byte[] copyBuffer = new byte[8092];
+					
+					//OutputStream out = response.getOutputStream();
+					PrintWriter writer = response.getWriter();
+					
+					int readLength = responseStream.read(copyBuffer);
+					String resp = new String(copyBuffer,0,readLength,"utf8");
+					do{
+					
+						//out.write(copyBuffer, 0 , readLength);
+						try{
+							
+						writer.write(new String(copyBuffer,0,readLength,"utf8"));
+						
+							readLength = responseStream.read(copyBuffer);
+							if(readLength>0){
+								resp +=new String(copyBuffer,0,readLength,"utf8");
+							}
+						}catch(Exception e){
+							e.printStackTrace();
+						}
+					}while (readLength>=0);
+					//responseStream.close();
+
+					//out.close();
+					
+					adapter.getBeanCtx().put(ChibaAdapter.SUBMISSION_RESPONSE, null);
+					return resp;
+				}				
+			
+			}else{
+				//TODO if user submitted a run then hit back browser they could wind up here
 			}
-			System.out.println("  NOT A REDIRECT");
+
+			
 			//Not a redirect or forward, handle it normal way
 			
             StringWriter out = new  StringWriter();
@@ -215,10 +310,9 @@ public class ChibaHelper {
 		HttpServletResponse response = (HttpServletResponse)context.getExternalContext().getResponse();
 		HttpSession session = request.getSession(false);  
 		
-		
 		String requestMethod = request.getMethod();
 		
-		System.out.println("Request.Method == "+requestMethod);
+		
 		
 		JsfChibaAdapter adapter = null;
 		
@@ -226,7 +320,7 @@ public class ChibaHelper {
 		
 		Benchmark bench = benchLoader.getBenchmark(faban.getBenchmarkName());
 		
-		System.out.println("ChibaHelper calling faban.profileName = "+faban.getProfileName());
+		
 		
 		String templateFile = com.sun.faban.harness.common.Config.PROFILES_DIR + File.separator + faban.getProfileName() + File.separator + bench.getConfigFileName() + "." + bench.getShortName(); 
 		
@@ -238,31 +332,23 @@ public class ChibaHelper {
 		
 		String srcUrl = new File(templateFile).toURI().toString();
 		
-		System.out.println("srcUrl = "+srcUrl);
+		
 		
 		try{
 			String requestURI = request.getRequestURI();//TODO may need to change this to a param
 			String formURI = null;
 			String contextPath = request.getContextPath();
 			String benchPath = contextPath;// + "/bm_submit/";//TODO bm_submit is old and needs removal
-			System.out.println("ChibaHelper.doGet requestURI="+requestURI+" benchPath="+benchPath);
+			
 			if(requestURI.startsWith(benchPath)){
-				System.out.println("ChibaHelper.startsWith benchPath");
+				
 				int idx = requestURI.indexOf('/',benchPath.length());
 				String benchName = requestURI.substring(benchPath.length(),idx);
 				String formName = requestURI.substring(idx+1);
 				formURI = com.sun.faban.harness.common.Config.BENCHMARK_DIR + File.separator + bench.getShortName() + File.separator + "META-INF" + File.separator + bench.getConfigForm();
-				//formURI = com.sun.faban.harness.common.Config.FABAN_HOME+"benchmarks/"+benchName+"/META-INF/"+formName;
-				System.out.println("  benchName="+benchName);
-				System.out.println("  formName="+formName);
-				System.out.println("  formURI="+formURI);
+				
 				
 			}else{
-				System.out.println("ChibaHelper.else ");
-				System.out.println("  serverName="+request.getServerName());
-				System.out.println("  serverPort="+request.getServerPort());
-				System.out.println("  contextPath="+request.getContextPath());
-				System.out.println("  param[form]="+request.getParameter("form"));
 				
 				StringBuffer buffer = new StringBuffer(request.getScheme());
 				buffer.append("://");
@@ -321,9 +407,9 @@ public class ChibaHelper {
 			
 			//adapter.baseURI = "http://w520:9980/";
 			
-           // adapter.setBaseUri(baseURL.toString());
+            adapter.setBaseUri(baseURL.toString());
 			//adapter.setBaseUri(com.sun.faban.harness.common.Config.FABAN_HOME+File.separator+"config/profiles")
-			adapter.setBaseUri("file:/home/wreicher/github/faban/stage/benchmarks/demoWeb/META-INF/");
+			//adapter.setBaseUri("file:/home/wreicher/code/github/faban/stage/benchmarks/demoWeb/META-INF/");
 			
             
             
@@ -348,7 +434,6 @@ public class ChibaHelper {
             adapter.getBeanCtx().put("chiba.web.session", session);
             
             // file:${FABAN_HOME}/stage/benchmarks/specjdriverharness/META-INF/run.xml
-            System.out.println("put benchmark.template = "+srcUrl);
             
             adapter.getBeanCtx().put("benchmark.template", srcUrl);
             //adapter.beanCtx.put("benchmark.template", "file:/home/wreicher/code/local/faban/stage/benchmarks/specjdriverharness/META-INF/run.xml");
@@ -396,7 +481,7 @@ public class ChibaHelper {
 //            writer.flush();
             
             
-//            System.out.println("ChibaHelper.doGet() -> "+tmpPath);
+
             
             return resp;
             
