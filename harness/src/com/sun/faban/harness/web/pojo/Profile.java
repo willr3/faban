@@ -9,25 +9,22 @@ public class Profile implements Serializable{
 	private static final long serialVersionUID = -5308917467767675016L;
 
 	private String name;
+  private String benchmarkName;
 	private List<String> tags;
-	private List<String> benchmarkNames;
+
 	
 	public Profile(){
 		name="";
+    benchmarkName="";
 		tags = new ArrayList<String>();
-		benchmarkNames = new ArrayList<String>();
 	}
 
-	
-	
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	
 	public List<String> getTags() {
 		return tags;
 	}
@@ -35,18 +32,10 @@ public class Profile implements Serializable{
 		this.tags = tags;
 	}
 
-	public List<String> getBenchmarkNames() {
-		return benchmarkNames;
+	public String getBenchmarkName() {
+		return benchmarkName;
 	}
-
-	public void setBenchmarkNames(List<String> benchmarkNames) {
-		this.benchmarkNames = benchmarkNames;
-	}
-	
-	public void addBenchmark(String benchmarkName){
-		if(this.benchmarkNames==null){
-			this.benchmarkNames=new ArrayList<String>();
-		}
-		benchmarkNames.add(benchmarkName);
+	public void setBenchmarkName(String benchmarkName) {
+		this.benchmarkName = benchmarkName;
 	}
 }
